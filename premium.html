@@ -599,7 +599,32 @@ const STRIPE_LINKS = {
   yearly: "https://buy.stripe.com/28EcN58JD60y1jZgnjcAo01",
   monthly: "https://buy.stripe.com/3cI9ATf81agOe6L6MJcAo00"
 };
+   
+<script type="module">
+  import { auth } from "./firebase-init.js";
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
+  let currentUser = null;
+
+  onAuthStateChanged(auth, (user) => {
+    currentUser = user || null;
+  });
+
+  window.goPremium = function(plan) {
+    if (!currentUser) {
+      alert("Please log in first so we can attach Premium to your account.");
+      return;
+    }
+
+    const links = {
+      monthly: "https://buy.stripe.com/3cI9ATf81ag0e6L6MJcAo00",
+      yearly: "https://buy.stripe.com/28EcN58JD60y1jZgnjcAo01"
+    };
+
+    window.location.href = links[plan];
+  }
+</script>
+   
 const faqs = [
   { q: "Is the free version actually useful?", a: "Absolutely. The free version includes daily mantras, 8 complete prayers with full Sanskrit and meaning, the Gita verse of the day, the festival calendar, and 3 guided meditation sessions. Many people find this deeply valuable on its own. Premium is for those who want to go deeper." },
   { q: "Is the content authentic and accurate?", a: "Every prayer, mantra, and text is drawn from authentic Hindu scriptures and traditions. We have consulted with Sanskrit scholars and Hindu practitioners to ensure accuracy. If you ever find an error, please contact us — we take this responsibility seriously." },
