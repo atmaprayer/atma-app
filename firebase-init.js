@@ -11,5 +11,6 @@ const firebaseConfig = {
   measurementId: "G-JB2Q1DKEER"
 };
 
-const app = initializeApp(firebaseConfig);
+// Export the initialized app so other modules (Firestore, premium checks, etc.) can reuse it.
+export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);

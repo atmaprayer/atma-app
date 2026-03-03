@@ -282,10 +282,18 @@
 
   <div class="sessions-grid reveal" id="sessionsGrid"></div>
 
-  <div class="premium-lock reveal" style="margin-top:40px;">
+  <div class="premium-lock reveal" data-premium="lock" style="margin-top:40px;">
     <p>🔒 12 more sessions including full Yoga Nidra and Trataka available in Premium</p>
     <a href="premium.html" class="btn-primary">Unlock All Sessions</a>
   </div>
+
+  <div class="premium-lock reveal" data-premium="only" style="margin-top:40px; border-color: rgba(244,196,48,0.22); background: linear-gradient(135deg, rgba(244,196,48,0.05), rgba(255,107,26,0.03));">
+    <p style="margin-bottom:12px;">✨ Premium active — all sessions unlocked<\/p>
+    <div style="max-width:760px;margin:0 auto;color: rgba(255,248,238,0.6); line-height:1.85;">
+      <p><strong style="color: rgba(255,253,245,0.92);">New (Premium):<\/strong> More Yoga Nidra, pranayama journeys, and guided deity meditations are being added weekly.<\/p>
+    <\/div>
+  <\/div>
+
 </div>
 
 <!-- MEDITATION PLAYER MODAL -->
@@ -319,7 +327,9 @@
 <script src="atma.js"></script>
 <script type="module">
   import { initAuthUI } from "./auth.js";
+  import { initPremiumAccess } from "./premium-access.js";
   initAuthUI();
+  initPremiumAccess();
 </script>
 <script>
 const sessions = [
@@ -337,30 +347,49 @@ const sessions = [
     instructions: [] },
 ];
 
-const grid = document.getElementById('sessionsGrid');
-sessions.forEach(s => {
-  const card = document.createElement('div');
-  card.className = 'session-card clickable' + (s.locked ? ' session-locked' : '');
-  const colors = ['rgba(255,107,26,0.08)','rgba(244,196,48,0.06)','rgba(232,160,191,0.06)'];
-  card.innerHTML = `
-    <div class="session-visual" style="background:${colors[Math.floor(Math.random()*colors.length)]};">${s.icon}</div>
-    <div class="session-body">
-      <div class="session-category">${s.category}</div>
-      <div class="session-name">${s.name}</div>
-      <div class="session-desc">${s.desc}</div>
-      <div class="session-meta">
-        <span class="session-duration">${s.duration}</span>
-        <span class="session-level">${s.level}</span>
-        <div class="session-play">${s.locked ? '🔒' : '▶'}</div>
-      </div>
-    </div>`;
-  if (!s.locked) {
-    card.addEventListener('click', () => openPlayer(s));
-  } else {
-    card.addEventListener('click', () => window.location.href = 'premium.html');
+
+  const grid = document.getElementById("sessionsGrid");
+
+  function renderSessions(isPremium) {
+    if (!grid) return;
+    grid.innerHTML = "";
+
+    sessions.forEach(s => {
+      const unlocked = isPremium ? true : !s.locked;
+      const card = document.createElement("div");
+      card.className = "session-card clickable" + (unlocked ? "" : " session-locked");
+      const colors = ["rgba(255,107,26,0.08)","rgba(244,196,48,0.06)","rgba(232,160,191,0.06)"];
+      card.innerHTML = `
+        <div class="session-visual" style="background:${colors[Math.floor(Math.random()*colors.length)]};">${s.icon}</div>
+        <div class="session-body">
+          <div class="session-category">${s.category}</div>
+          <div class="session-name">${s.name}</div>
+          <div class="session-desc">${s.desc}</div>
+          <div class="session-meta">
+            <span class="session-duration">${s.duration}</span>
+            <span class="session-level">${s.level}</span>
+            <div class="session-play">${unlocked ? "▶" : "🔒"}</div>
+          </div>
+        </div>`;
+
+      if (unlocked) {
+        card.addEventListener("click", () => openPlayer(s));
+      } else {
+        card.addEventListener("click", () => window.location.href = "premium.html");
+      }
+
+      grid.appendChild(card);
+    });
   }
-  grid.appendChild(card);
-});
+
+  // Initial render (guest state)
+  renderSessions(false);
+
+  // Re-render when auth/premium status loads
+  window.addEventListener("atma:access", (e) => {
+    renderSessions(!!e.detail?.isPremium);
+  });
+
 
 // Player
 let playerInterval = null;

@@ -354,10 +354,19 @@
 
 <!-- PREMIUM LOCK for full chapter access -->
 <div style="max-width:1200px;margin:0 auto;padding:0 48px 80px;position:relative;z-index:1;">
-  <div class="premium-lock reveal">
+  <div class="premium-lock reveal" data-premium="lock">
     <p>🔒 All 700 verses with full commentary available in Premium</p>
     <a href="premium.html" class="btn-primary">Unlock Full Gita — $9.99/mo</a>
   </div>
+
+  <div class="premium-lock reveal" data-premium="only" style="border-color: rgba(244,196,48,0.22); background: linear-gradient(135deg, rgba(244,196,48,0.05), rgba(255,107,26,0.03));">
+    <p style="margin-bottom:12px;">✨ Premium active — welcome deeper into the Gita<\/p>
+    <div style="max-width:820px;margin:0 auto;color: rgba(255,248,238,0.6); line-height:1.85;">
+      <p><strong style="color: rgba(255,253,245,0.92);">New (Premium):<\/strong> Daily verse reflections, chapter-by-chapter navigation, and extended commentary are being rolled out.<\/p>
+      <p style="margin-top:10px;">For now, this page will recognize your Premium status automatically every time you return.<\/p>
+    <\/div>
+  <\/div>
+
 </div>
 
 <footer class="atma-footer">
@@ -375,7 +384,9 @@
 <script src="atma.js"></script>
 <script type="module">
   import { initAuthUI } from "./auth.js";
+  import { initPremiumAccess } from "./premium-access.js";
   initAuthUI();
+  initPremiumAccess();
 </script>
 <script>
 const chapters = [
