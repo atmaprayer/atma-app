@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0A0A1A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Prayers & Mantras — Atma</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="atma.css">
+<style>
+/* SEARCH & FILTER */
+  .controls {
+    position: relative; z-index: 1;
+    max-width: 900px; margin: 0 auto;
+    padding: 0 40px 60px;
+    display: flex; flex-direction: column; gap: 20px; align-items: center;
+  }
+  .search-wrap {
+    position: relative; width: 100%; max-width: 500px;
+  }
+  .search-wrap input {
+    width: 100%; padding: 14px 20px 14px 48px;
+    background: rgba(255,248,238,0.04);
+    border: 1px solid rgba(244,196,48,0.2);
+    color: var(--cream); font-family: 'Crimson Pro', serif; font-size: 17px;
+    outline: none; transition: border-color 0.3s;
+  }
+  .search-wrap input::placeholder { color: rgba(255,248,238,0.3); font-style: italic; }
+  .search-wrap input:focus { border-color: rgba(244,196,48,0.5); }
+  .search-icon {
+    position: absolute; left: 16px; top: 50%;
+    transform: translateY(-50%); color: rgba(244,196,48,0.4); font-size: 18px;
+  }
+  .filter-tabs {
+    display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
+  }
+  .filter-tab {
+    padding: 8px 20px;
+    background: transparent;
+    border: 1px solid rgba(244,196,48,0.15);
+    color: rgba(255,248,238,0.5);
+    font-family: 'Cinzel', serif; font-size: 11px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.3s;
+  }
+  .filter-tab:hover, .filter-tab.active {
+    background: rgba(255,107,26,0.12);
+    border-color: var(--saffron);
+    color: var(--gold);
+  }
+
+  /* MAIN LAYOUT */
+  .main {
+    position: relative; z-index: 1;
+    max-width: 1100px; margin: 0 auto;
+    padding: 0 40px 100px;
+    display: grid; grid-template-columns: 300px 1fr; gap: 40px;
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    position: sticky; top: 90px;
+    height: fit-content;
+  }
+  .sidebar-section { margin-bottom: 32px; }
+  .sidebar-title {
+    font-family: 'Cinzel', serif; font-size: 10px;
+    letter-spacing: 0.25em; color: var(--saffron);
+    text-transform: uppercase; margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(244,196,48,0.1);
+  }
+  .deity-list { list-style: none; }
+  .deity-item {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,248,238,0.04);
+    cursor: pointer;
+    display: flex; align-items: center; gap: 12px;
+    transition: color 0.3s;
+    color: rgba(255,248,238,0.6);
+    font-size: 17px;
+  }
+  .deity-item:hover, .deity-item.active { color: var(--gold); }
+  .deity-item .deity-icon { font-size: 20px; width: 28px; text-align: center; }
+  .deity-count {
+    margin-left: auto;
+    font-family: 'Cinzel', serif; font-size: 10px;
+    color: rgba(255,248,238,0.25); letter-spacing: 0.1em;
+  }
+
+  /* PRAYER CARDS */
+  .prayer-grid { display: flex; flex-direction: column; gap: 2px; }
+
+  .prayer-card {
+    background: linear-gradient(135deg, rgba(255,107,26,0.04), rgba(244,196,48,0.02));
+    border: 1px solid rgba(244,196,48,0.08);
+    transition: all 0.4s;
+    overflow: hidden;
+  }
+  .prayer-card:hover {
+    border-color: rgba(244,196,48,0.2);
+    background: linear-gradient(135deg, rgba(255,107,26,0.08), rgba(244,196,48,0.05));
+  }
+
+  .prayer-header {
+    padding: 28px 32px;
+    display: flex; align-items: flex-start; gap: 20px;
+    cursor: pointer;
+  }
+
+  .prayer-icon { font-size: 32px; flex-shrink: 0; margin-top: 4px; }
+
+  .prayer-meta { flex: 1; }
+  .prayer-category {
+    font-family: 'Cinzel', serif; font-size: 10px;
+    letter-spacing: 0.2em; color: var(--saffron);
+    text-transform: uppercase; margin-bottom: 6px;
+  }
+  .prayer-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px; font-weight: 400;
+    color: var(--warm-white); line-height: 1.2; margin-bottom: 6px;
+  }
+  .prayer-sanskrit {
+    font-size: 16px; font-style: italic;
+    color: var(--gold-light); opacity: 0.7; margin-bottom: 8px;
+  }
+  .prayer-desc {
+    font-size: 16px; line-height: 1.6;
+    color: rgba(255,248,238,0.55);
+  }
+
+  .prayer-tags { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .tag {
+    padding: 3px 12px;
+    border: 1px solid rgba(244,196,48,0.15);
+    font-family: 'Cinzel', serif; font-size: 9px;
+    letter-spacing: 0.15em; color: rgba(244,196,48,0.6);
+    text-transform: uppercase;
+  }
+
+  .prayer-expand {
+    margin-left: auto; flex-shrink: 0;
+    color: rgba(244,196,48,0.4); font-size: 22px;
+    transition: transform 0.3s, color 0.3s;
+    align-self: center;
+  }
+  .prayer-card.open .prayer-expand {
+    transform: rotate(180deg); color: var(--gold);
+  }
+
+  /* PRAYER CONTENT (expanded) */
+  .prayer-content {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    border-top: 0px solid transparent;
+  }
+  .prayer-card.open .prayer-content {
+    max-height: 3000px;
+    border-top: 1px solid rgba(244,196,48,0.08);
+  }
+
+  .prayer-content-inner { padding: 32px; }
+
+  /* Audio player */
+  .audio-player {
+    display: flex; align-items: center; gap: 16px;
+    background: rgba(255,107,26,0.08);
+    border: 1px solid rgba(255,107,26,0.2);
+    padding: 16px 24px; margin-bottom: 32px;
+  }
+  .play-btn {
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, var(--saffron), var(--deep-saffron));
+    border: none; border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(232,93,4,0.4);
+  }
+  .play-btn:hover { transform: scale(1.1); box-shadow: 0 8px 30px rgba(232,93,4,0.6); }
+  .audio-info { flex: 1; }
+  .audio-title {
+    font-family: 'Cinzel', serif; font-size: 11px;
+    letter-spacing: 0.15em; color: var(--gold); margin-bottom: 4px;
+  }
+  .audio-sub { font-size: 14px; color: rgba(255,248,238,0.4); font-style: italic; }
+  .audio-note {
+    font-size: 13px; font-style: italic;
+    color: rgba(255,248,238,0.3);
+  }
+
+  /* Verse blocks */
+  .verse-block { margin-bottom: 40px; }
+  .verse-number {
+    font-family: 'Cinzel', serif; font-size: 10px;
+    letter-spacing: 0.2em; color: rgba(255,107,26,0.6);
+    margin-bottom: 12px; text-transform: uppercase;
+  }
+  .verse-sanskrit {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; line-height: 1.7;
+    color: var(--gold-light); margin-bottom: 10px;
+    font-weight: 300;
+  }
+  .verse-transliteration {
+    font-size: 17px; line-height: 1.8;
+    color: rgba(255,248,238,0.6); font-style: italic;
+    margin-bottom: 10px;
+  }
+  .verse-translation {
+    font-size: 17px; line-height: 1.8;
+    color: rgba(255,248,238,0.85);
+    padding-left: 16px;
+    border-left: 2px solid rgba(255,107,26,0.3);
+  }
+
+  .meaning-box {
+    background: rgba(244,196,48,0.04);
+    border: 1px solid rgba(244,196,48,0.1);
+    padding: 24px; margin-top: 32px;
+  }
+  .meaning-title {
+    font-family: 'Cinzel', serif; font-size: 10px;
+    letter-spacing: 0.2em; color: var(--saffron);
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  .meaning-text {
+    font-size: 17px; line-height: 1.85;
+    color: rgba(255,248,238,0.75);
+  }
+
+  .benefits-list { margin-top: 20px; }
+  .benefits-list li {
+    padding: 8px 0; padding-left: 20px;
+    position: relative; font-size: 16px;
+    color: rgba(255,248,238,0.65); line-height: 1.5;
+    border-bottom: 1px solid rgba(255,248,238,0.04);
+  }
+  .benefits-list li::before {
+    content: '✦'; position: absolute; left: 0;
+    color: var(--saffron); font-size: 10px; top: 12px;
+  }
+
+  /* Divider */
+  .om-divider {
+    text-align: center; color: rgba(244,196,48,0.2);
+    font-size: 24px; letter-spacing: 20px;
+    padding: 60px 0 0;
+  }
+
+  /* Featured badge */
+  .featured-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: linear-gradient(135deg, rgba(255,107,26,0.2), rgba(244,196,48,0.1));
+    border: 1px solid rgba(255,107,26,0.3);
+    padding: 4px 12px; margin-bottom: 20px;
+    font-family: 'Cinzel', serif; font-size: 10px;
+    letter-spacing: 0.15em; color: var(--saffron);
+    text-transform: uppercase;
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    .page-header { padding: 100px 20px 40px; }
+    .controls { padding: 0 20px 40px; }
+    .main { grid-template-columns: 1fr; padding: 0 20px 80px; }
+    .sidebar { position: relative; top: 0; }
+    .prayer-header { padding: 20px; }
+    .prayer-content-inner { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="stars" id="stars"></div>
+
+<!-- NAV -->
+<nav class="atma-nav">
+  <a href="index.html" class="logo">ATM<span>A</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="prayers.html">Prayers</a></li>
+    <li><a href="gita.html">Gita Daily</a></li>
+    <li><a href="calendar.html">Calendar</a></li>
+    <li><a href="meditate.html">Meditate</a></li>
+    <li><a href="premium.html" class="nav-cta">Go Premium</a></li>
+  </ul>
+  
+  <div class="account">
+    <button id="loginBtn" type="button" class="nav-cta">Log in</button>
+    <span id="userChip" class="chip" style="display:none"></span>
+    <button id="logoutBtn" type="button" class="btn-outline small" style="display:none">Log out</button>
+  </div>
+  <div class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HEADER -->
+<div class="page-header">
+  <span class="page-eyebrow">Sacred Library</span>
+  <h1 class="page-title">Prayers & <em>Mantras</em></h1>
+  <p class="page-subtitle">Every sacred prayer, stotra, and mantra — with Sanskrit, transliteration, meaning, and guided audio</p>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Search prayers, mantras, deities...">
+  </div>
+  <div class="filter-tabs">
+    <button class="filter-tab active" data-filter="all">All Prayers</button>
+    <button class="filter-tab" data-filter="morning">Morning</button>
+    <button class="filter-tab" data-filter="evening">Evening</button>
+    <button class="filter-tab" data-filter="mantra">Mantras</button>
+    <button class="filter-tab" data-filter="stotra">Stotras</button>
+    <button class="filter-tab" data-filter="chalisa">Chalisas</button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-title">By Deity</div>
+      <ul class="deity-list">
+        <li class="deity-item active" data-deity="all">
+          <span class="deity-icon">ॐ</span> All Deities
+          <span class="deity-count">24</span>
+        </li>
+        <li class="deity-item" data-deity="ganesha">
+          <span class="deity-icon">🐘</span> Ganesha
+          <span class="deity-count">5</span>
+        </li>
+        <li class="deity-item" data-deity="shiva">
+          <span class="deity-icon">🔱</span> Shiva
+          <span class="deity-count">6</span>
+        </li>
+        <li class="deity-item" data-deity="vishnu">
+          <span class="deity-icon">🪷</span> Vishnu
+          <span class="deity-count">4</span>
+        </li>
+        <li class="deity-item" data-deity="hanuman">
+          <span class="deity-icon">🙏</span> Hanuman
+          <span class="deity-count">3</span>
+        </li>
+        <li class="deity-item" data-deity="devi">
+          <span class="deity-icon">⚡</span> Devi / Durga
+          <span class="deity-count">4</span>
+        </li>
+        <li class="deity-item" data-deity="lakshmi">
+          <span class="deity-icon">🌸</span> Lakshmi
+          <span class="deity-count">3</span>
+        </li>
+        <li class="deity-item" data-deity="surya">
+          <span class="deity-icon">☀️</span> Surya
+          <span class="deity-count">2</span>
+        </li>
+        <li class="deity-item" data-deity="saraswati">
+          <span class="deity-icon">🎵</span> Saraswati
+          <span class="deity-count">2</span>
+        </li>
+      </ul>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-title">Daily Practice</div>
+      <ul class="deity-list">
+        <li class="deity-item">
+          <span class="deity-icon">🌅</span> Morning Sadhana
+        </li>
+        <li class="deity-item">
+          <span class="deity-icon">🌙</span> Evening Prayers
+        </li>
+        <li class="deity-item">
+          <span class="deity-icon">🛏️</span> Before Sleep
+        </li>
+        <li class="deity-item">
+          <span class="deity-icon">🍽️</span> Before Meals
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- PRAYER LIST -->
+  <div class="prayer-grid" id="prayerGrid">
+
+    <!-- 1. GANESH VANDANA -->
+    <div class="prayer-card" data-filter="morning" data-deity="ganesha">
+      <div class="prayer-header" onclick="togglePrayer(this)">
+        <div class="prayer-icon">🐘</div>
+        <div class="prayer-meta">
+          <div class="prayer-category">Ganesha · Morning · Essential</div>
+          <div class="prayer-name">Vakratunda Mahakaya</div>
+          <div class="prayer-sanskrit">वक्रतुण्ड महाकाय</div>
+          <div class="prayer-desc">The most essential prayer — recited before any new beginning, journey, or endeavor. Invoke Lord Ganesha's blessings to remove all obstacles.</div>
+          <div class="prayer-tags">
+            <span class="tag">Morning</span>
+            <span class="tag">Beginner</span>
+            <span class="tag">2 min</span>
+            <span class="tag">Essential</span>
+          </div>
+        </div>
+        <div class="prayer-expand">▾</div>
+      </div>
+      <div class="prayer-content">
+        <div class="prayer-content-inner">
+          <div class="featured-badge">⭐ Start Here · Most Recited Prayer</div>
+          <div class="audio-player">
+            <button class="play-btn" onclick="toggleAudio(this, 'ganesh1')">▶</button>
+            <div class="audio-info">
+              <div class="audio-title">Vakratunda Mahakaya</div>
+              <div class="audio-sub">Sanskrit recitation · 1 min 45 sec</div>
+            </div>
+            <div class="audio-note">Upload your audio from ElevenLabs here</div>
+          </div>
+
+          <div class="verse-block">
+            <div class="verse-number">Shloka</div>
+            <div class="verse-sanskrit">
+              वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ।<br>
+              निर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा॥
+            </div>
+            <div class="verse-transliteration">
+              Vakratunda Mahakaya Suryakoti Samaprabha<br>
+              Nirvighnam Kuru Me Deva Sarvakaryeshu Sarvada
+            </div>
+            <div class="verse-translation">
+              O Lord with the curved trunk and mighty body,<br>
+              whose radiance equals ten million suns —<br>
+              bless me so that I am free from all obstacles<br>
+              in all that I do, always and forever.
+            </div>
+          </div>
+
+          <div class="meaning-box">
+            <div class="meaning-title">Word by Word Meaning</div>
+            <div class="meaning-text">
+              <strong style="color: var(--gold-light);">Vakratunda</strong> — One with the curved trunk (वक्र = curved, तुण्ड = trunk)<br><br>
+              <strong style="color: var(--gold-light);">Mahakaya</strong> — One with the great/mighty body (महा = great, काय = body)<br><br>
+              <strong style="color: var(--gold-light);">Suryakoti Samaprabha</strong> — Whose brilliance equals ten million suns<br><br>
+              <strong style="color: var(--gold-light);">Nirvighnam Kuru Me</strong> — Grant me freedom from obstacles (निर्विघ्नं = obstacle-free, कुरु = make, मे = for me)<br><br>
+              <strong style="color: var(--gold-light);">Sarvakaryeshu Sarvada</strong> — In all my work, always
+            </div>
+            <ul class="benefits-list" style="margin-top: 20px;">
+              <li>Recite before starting any new task, project, or journey</li>
+              <li>Traditionally the very first prayer of the day</li>
+              <li>Ganesha is the remover of obstacles (Vighnaharta) and the lord of new beginnings</li>
+              <li>Can be recited any number of times — even once with full devotion is sufficient</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. GAYATRI MANTRA -->
+    <div class="prayer-card" data-filter="mantra morning" data-deity="surya">
+      <div class="prayer-header" onclick="togglePrayer(this)">
+        <div class="prayer-icon">☀️</div>
+        <div class="prayer-meta">
+          <div class="prayer-category">Surya · Mantra · Universal</div>
+          <div class="prayer-name">Gayatri Mantra</div>
+          <div class="prayer-sanskrit">गायत्री मन्त्र</div>
+          <div class="prayer-desc">The most sacred mantra of the Vedas. A prayer for divine light to illuminate the mind. Recited at sunrise, noon, and sunset for over 3,500 years.</div>
+          <div class="prayer-tags">
+            <span class="tag">Morning</span>
+            <span class="tag">Universal</span>
+            <span class="tag">3 min</span>
+            <span class="tag">Vedic</span>
+          </div>
+        </div>
+        <div class="prayer-expand">▾</div>
+      </div>
+      <div class="prayer-content">
+        <div class="prayer-content-inner">
+          <div class="audio-player">
+            <button class="play-btn" onclick="toggleAudio(this, 'gayatri')">▶</button>
+            <div class="audio-info">
+              <div class="audio-title">Gayatri Mantra — 108 Repetitions</div>
+              <div class="audio-sub">Traditional recitation · 12 min</div>
+            </div>
+          </div>
+
+          <div class="verse-block">
+            <div class="verse-number">The Mantra</div>
+            <div class="verse-sanskrit">
+              ॐ भूर्भुवः स्वः<br>
+              तत्सवितुर्वरेण्यं<br>
+              भर्गो देवस्य धीमहि<br>
+              धियो यो नः प्रचोदयात्॥
+            </div>
+            <div class="verse-transliteration">
+              Om Bhur Bhuvah Svaha<br>
+              Tat Savitur Varenyam<br>
+              Bhargo Devasya Dhimahi<br>
+              Dhiyo Yo Nah Prachodayat
+            </div>
+            <div class="verse-translation">
+              Om — the primordial sound, the source of all creation<br>
+              We meditate upon the divine light of that adorable Sun<br>
+              May that supreme divine spirit illuminate our intellect<br>
+              And inspire us toward righteous action and truth
+            </div>
+          </div>
+
+          <div class="meaning-box">
+            <div class="meaning-title">The Deeper Meaning</div>
+            <div class="meaning-text">
+              The Gayatri is not merely a prayer — it is a meditation on light as consciousness. The "sun" (Savitru) here refers not just to the physical sun, but to the divine intelligence that animates all creation. When we recite this mantra, we are asking that same intelligence to light up our own minds.
+              <br><br>
+              The three worlds mentioned — Bhur (earth), Bhuvah (atmosphere), Svah (heavens) — represent the entirety of existence. This mantra transcends all divisions of caste, sect, or tradition. It belongs to every Hindu.
+            </div>
+            <ul class="benefits-list">
+              <li>Recite facing east at sunrise for maximum benefit</li>
+              <li>Traditionally recited 108 times using a japa mala</li>
+              <li>Even 3, 9, or 27 repetitions with full attention carries great merit</li>
+              <li>The Gayatri is found in the Rigveda (3.62.10) — among the oldest prayers in human history</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. MAHA MRITYUNJAYA -->
+    <div class="prayer-card" data-filter="mantra" data-deity="shiva">
+      <div class="prayer-header" onclick="togglePrayer(this)">
+        <div class="prayer-icon">🔱</div>
+        <div class="prayer-meta">
+          <div class="prayer-category">Shiva · Mantra · Healing</div>
+          <div class="prayer-name">Maha Mrityunjaya Mantra</div>
+          <div class="prayer-sanskrit">महामृत्युञ्जय मन्त्र</div>
+          <div class="prayer-desc">The great victory over death. One of the most powerful mantras in the Vedas — chanted for healing, protection, liberation, and overcoming fear.</div>
+          <div class="prayer-tags">
+            <span class="tag">Healing</span>
+            <span class="tag">Protection</span>
+            <span class="tag">Shiva</span>
+            <span class="tag">Powerful</span>
+          </div>
+        </div>
+        <div class="prayer-expand">▾</div>
+      </div>
+      <div class="prayer-content">
+        <div class="prayer-content-inner">
+          <div class="audio-player">
+            <button class="play-btn">▶</button>
+            <div class="audio-info">
+              <div class="audio-title">Maha Mrityunjaya — Slow recitation</div>
+              <div class="audio-sub">With pronunciation guide · 8 min</div>
+            </div>
+          </div>
+          <div class="verse-block">
+            <div class="verse-number">The Mantra</div>
+            <div class="verse-sanskrit">
+              ॐ त्र्यम्बकं यजामहे<br>
+              सुगन्धिं पुष्टिवर्धनम्।<br>
+              उर्वारुकमिव बन्धनान्<br>
+              मृत्योर्मुक्षीय माऽमृतात्॥
+            </div>
+            <div class="verse-transliteration">
+              Om Tryambakam Yajamahe<br>
+              Sugandhim Pushtivardhanam<br>
+              Urvarukamiva Bandhanan<br>
+              Mrityor Mukshiya Maamritat
+            </div>
+            <div class="verse-translation">
+              We worship the three-eyed Lord Shiva,<br>
+              who is fragrant and nourishes all beings.<br>
+              As a cucumber is severed from its vine,<br>
+              may we be liberated from death — not from immortality.
+            </div>
+          </div>
+          <div class="meaning-box">
+            <div class="meaning-title">Significance & Practice</div>
+            <div class="meaning-text">
+              The Maha Mrityunjaya is called the "Great Death-Conquering Mantra." The three eyes of Shiva represent the sun, moon, and fire — past, present, and future. The beautiful metaphor of the cucumber (urvaruka) separating naturally from its vine speaks to a death that is peaceful and timely, not violent or premature.
+              <br><br>
+              This mantra is recited when someone is ill, facing danger, before surgery, during grief, or in times of deep fear. It is among the most requested mantras at hospitals in India.
+            </div>
+            <ul class="benefits-list">
+              <li>Chant 108 times for full healing puja</li>
+              <li>Particularly powerful on Mondays and during Shivaratri</li>
+              <li>Can be recited for another person's wellbeing</li>
+              <li>Found in the Rigveda (7.59.12) and Yajurveda</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. HANUMAN CHALISA -->
+    <div class="prayer-card" data-filter="chalisa" data-deity="hanuman">
+      <div class="prayer-header" onclick="togglePrayer(this)">
+        <div class="prayer-icon">🙏</div>
+        <div class="prayer-meta">
+          <div class="prayer-category">Hanuman · Chalisa · Devotional</div>
+          <div class="prayer-name">Hanuman Chalisa</div>
+          <div class="prayer-sanskrit">हनुमान चालीसा</div>
+          <div class="prayer-desc">40 verses of pure devotion to Lord Hanuman — the embodiment of strength, courage, and selfless service. The most recited prayer in the Hindu world.</div>
+          <div class="prayer-tags">
+            <span class="tag">40 Verses</span>
+            <span class="tag">Tuesday</span>
+            <span class="tag">Saturday</span>
+            <span class="tag">15 min</span>
+          </div>
+        </div>
+        <div class="prayer-expand">▾</div>
+      </div>
+      <div class="prayer-content">
+        <div class="prayer-content-inner">
+          <div class="featured-badge">🔥 Most Popular · 1 Billion+ Daily Recitations Worldwide</div>
+          <div class="audio-player">
+            <button class="play-btn">▶</button>
+            <div class="audio-info">
+              <div class="audio-title">Hanuman Chalisa — Full Recitation</div>
+              <div class="audio-sub">With Hindi transliteration · 15 min</div>
+            </div>
+          </div>
+
+          <div class="verse-block">
+            <div class="verse-number">Doha 1 — Opening</div>
+            <div class="verse-sanskrit">
+              श्रीगुरु चरन सरोज रज निज मनु मुकुरु सुधारि।<br>
+              बरनउँ रघुबर बिमल जसु जो दायकु फल चारि॥
+            </div>
+            <div class="verse-transliteration">
+              Shri Guru Charan Saroj Raj Nij Manu Mukuru Sudhari<br>
+              Barnau Raghubar Bimal Jasu Jo Dayaku Phal Chari
+            </div>
+            <div class="verse-translation">
+              Having cleansed the mirror of my mind with the dust of my Guru's lotus feet,<br>
+              I narrate the pure glory of Raghuvara — which bestows the four fruits of life.
+            </div>
+          </div>
+
+          <div class="verse-block">
+            <div class="verse-number">Doha 2</div>
+            <div class="verse-sanskrit">
+              बुद्धिहीन तनु जानिके सुमिरौ पवन कुमार।<br>
+              बल बुद्धि बिद्या देहु मोहिं हरहु कलेस बिकार॥
+            </div>
+            <div class="verse-transliteration">
+              Buddhihin Tanu Janike Sumirau Pavan Kumar<br>
+              Bal Buddhi Vidya Dehu Mohi Harahu Kales Bikar
+            </div>
+            <div class="verse-translation">
+              Knowing myself to be without intelligence, I remember you, O Son of the Wind.<br>
+              Grant me strength, wisdom, and knowledge — and remove all my afflictions and impurities.
+            </div>
+          </div>
+
+          <div class="verse-block">
+            <div class="verse-number">Chaupai 1</div>
+            <div class="verse-sanskrit">
+              जय हनुमान ज्ञान गुन सागर।<br>
+              जय कपीस तिहुँ लोक उजागर॥
+            </div>
+            <div class="verse-transliteration">
+              Jai Hanuman Gyan Gun Sagar<br>
+              Jai Kapis Tihun Lok Ujagar
+            </div>
+            <div class="verse-translation">
+              Victory to Hanuman, ocean of wisdom and virtue.<br>
+              Victory to the Lord of monkeys, illuminator of the three worlds.
+            </div>
+          </div>
+
+          <div class="verse-block">
+            <div class="verse-number">Chaupai 2</div>
+            <div class="verse-sanskrit">
+              राम दूत अतुलित बल धामा।<br>
+              अञ्जनि पुत्र पवनसुत नामा॥
+            </div>
+            <div class="verse-transliteration">
+              Ram Doot Atulit Bal Dhama<br>
+              Anjani Putra Pavansut Nama
+            </div>
+            <div class="verse-translation">
+              Messenger of Rama, abode of incomparable strength,<br>
+              Known as the son of Anjani and the son of the Wind.
+            </div>
+          </div>
+
+          <div class="meaning-box">
+            <div class="meaning-title">About the Hanuman Chalisa</div>
+            <div class="meaning-text">
+              Written by the poet-saint Tulsidas in the 16th century in Awadhi Hindi, the Chalisa (meaning "forty") contains exactly 40 verses — 2 Dohas (couplets) and 38 Chaupais (quatrains). It is the single most recited Hindu prayer in the world, with an estimated one billion recitations daily across India alone.
+              <br><br>
+              Hanuman represents the perfect devotee — one who has completely surrendered their ego to God while possessing boundless strength, intelligence, and courage. His story in the Ramayana is one of absolute selfless service.
+            </div>
+            <ul class="benefits-list">
+              <li>Recite on Tuesdays and Saturdays — Hanuman's sacred days</li>
+              <li>Chanting 11 times on a Tuesday is considered especially auspicious</li>
+              <li>The full Chalisa takes approximately 12–15 minutes to recite</li>
+              <li>Associated with removing fear, evil influences, and mental disturbances</li>
+              <li>Best recited in the morning, but beneficial any time</li>
+            </ul>
+          </div>
+
+          <p style="font-size: 15px; font-style: italic; color: rgba(255,248,238,0.35); margin-top: 24px; text-align: center;">
+            Full 40 verses available in Premium · Unlock all chalisas
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. SHIVA PANCHAKSHARA -->
+    <div class="prayer-card" data-filter="mantra" data-deity="shiva">
+      <div class="prayer-header" onclick="togglePrayer(this)">
+        <div class="prayer-icon">🔱</div>
+        <div class="prayer-meta">
+          <div class="prayer-category">Shiva · Stotra · Monday</div>
+          <div class="prayer-name">Shiva Panchakshara Stotram</div>
+          <div class="prayer-sanskrit">शिव पञ्चाक्षर स्तोत्र</div>
+          <div class="prayer-desc">Five verses — each beginning with the five syllables of Na-Ma-Shi-Va-Ya. Composed by Adi Shankaracharya, the most luminous theological mind in Hindu history.</div>
+          <div class="prayer-tags">
+            <span class="tag">Monday</span>
+            <span class="tag">Shankaracharya</span>
+            <span class="tag">5 min</span>
+            <span class="tag">Sanskrit</span>
+          </div>
+        </div>
+        <div class="prayer-expand">▾</div>
+      </div>
+      <div class="prayer-content">
+        <div class="prayer-content-inner">
+          <div class="audio-player">
+            <button class="play-btn">▶</button>
+            <div class="audio-info">
+              <div class="audio-title">Shiva Panchakshara Stotram</div>
+              <div class="audio-sub">Classical Sanskrit · 5 min</div>
+            </div>
+          </div>
+          <div class="verse-block">
+            <div class="verse-number">Verse 1 — Na (न)</div>
+            <div class="verse-sanskrit">
+              नागेन्द्रहाराय त्रिलोचनाय<br>
+              भस्माङ्गरागाय महेश्वराय।<br>
+              नित्याय शुद्धाय दिगम्बराय<br>
+              तस्मै नकाराय नमः शिवाय॥
+            </div>
+            <div class="verse-transliteration">
+              Nagendra Haraya Trilochanaya<br>
+              Bhashmanga Ragaya Maheshwaraya<br>
+              Nityaya Shuddhaya Digambaraya<br>
+              Tasmai Nakaraya Namah Shivaya
+            </div>
+            <div class="verse-translation">
+              To the one who wears the serpent king as a garland, who has three eyes,<br>
+              Who is adorned with ash, who is the great Lord,<br>
+              Who is eternal, pure, and clothed in the directions (the sky itself) —<br>
+              To that Shiva represented by the syllable "Na" — I bow.
+            </div>
+          </div>
+          <div class="meaning-box">
+            <div class="meaning-title">The Five Syllables</div>
+            <div class="meaning-text">
+              Namasivaya (नमः शिवाय) — the Panchakshara, or five-syllable mantra — is considered the very heart of the Shaiva tradition. Each syllable corresponds to one of the five elements: Na (earth), Ma (water), Shi (fire), Va (air), Ya (ether/space). The mantra is thus a salutation to Shiva as the totality of creation itself.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6. LAKSHMI PRAYER -->
+    <div class="prayer-card" data-filter="evening stotra" data-deity="lakshmi">
+      <div class="prayer-header" onclick="togglePrayer(this)">
+        <div class="prayer-icon">🌸</div>
+        <div class="prayer-meta">
+          <div class="prayer-category">Lakshmi · Evening · Prosperity</div>
+          <div class="prayer-name">Sri Mahalakshmi Ashtakam</div>
+          <div class="prayer-sanskrit">श्री महालक्ष्मी अष्टकम्</div>
+          <div class="prayer-desc">Eight verses in praise of Goddess Lakshmi — the divine mother of abundance, beauty, and spiritual prosperity. Recited on Fridays and during Diwali.</div>
+          <div class="prayer-tags">
+            <span class="tag">Friday</span>
+            <span class="tag">Diwali</span>
+            <span class="tag">Prosperity</span>
+            <span class="tag">Evening</span>
+          </div>
+        </div>
+        <div class="prayer-expand">▾</div>
+      </div>
+      <div class="prayer-content">
+        <div class="prayer-content-inner">
+          <div class="audio-player">
+            <button class="play-btn">▶</button>
+            <div class="audio-info">
+              <div class="audio-title">Mahalakshmi Ashtakam</div>
+              <div class="audio-sub">Evening recitation · 7 min</div>
+            </div>
+          </div>
+          <div class="verse-block">
+            <div class="verse-number">Verse 1</div>
+            <div class="verse-sanskrit">
+              नमस्तेस्तु महामाये श्रीपीठे सुरपूजिते।<br>
+              शङ्खचक्रगदाहस्ते महालक्ष्मि नमोऽस्तुते॥
+            </div>
+            <div class="verse-transliteration">
+              Namasteste Mahamaye Shripeethe Surapujite<br>
+              Shankhachakra Gadahaste Mahalakshmi Namostute
+            </div>
+            <div class="verse-translation">
+              Salutations to you, O Great Illusion, worshipped by the gods on the sacred seat,<br>
+              Holding conch, discus, and mace in your hands — O Mahalakshmi, I bow to you.
+            </div>
+          </div>
+          <div class="meaning-box">
+            <div class="meaning-title">When to Recite</div>
+            <div class="meaning-text">
+              The Mahalakshmi Ashtakam is traditionally recited on Friday evenings, ideally after lighting a ghee lamp before Lakshmi's image. During Diwali, it is recited as part of the main puja. Lakshmi represents not just material wealth but all forms of abundance — health, relationships, wisdom, and spiritual prosperity.
+            </div>
+            <ul class="benefits-list">
+              <li>Best recited on Fridays — Lakshmi's sacred day</li>
+              <li>Light a yellow or white ghee lamp while reciting</li>
+              <li>Offer lotus flowers or marigolds if available</li>
+              <li>Particularly powerful during Diwali puja</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. MORNING PRAYER -->
+    <div class="prayer-card" data-filter="morning" data-deity="all">
+      <div class="prayer-header" onclick="togglePrayer(this)">
+        <div class="prayer-icon">🌅</div>
+        <div class="prayer-meta">
+          <div class="prayer-category">Universal · Morning · Daily</div>
+          <div class="prayer-name">Pratah Smarana — Morning Remembrance</div>
+          <div class="prayer-sanskrit">प्रातः स्मरण</div>
+          <div class="prayer-desc">The first prayer of the day — recited before getting out of bed. Three brief verses to sanctify the hands, the earth, and the mind at the very start of morning.</div>
+          <div class="prayer-tags">
+            <span class="tag">First of Day</span>
+            <span class="tag">1 min</span>
+            <span class="tag">Universal</span>
+            <span class="tag">Daily</span>
+          </div>
+        </div>
+        <div class="prayer-expand">▾</div>
+      </div>
+      <div class="prayer-content">
+        <div class="prayer-content-inner">
+          <div class="audio-player">
+            <button class="play-btn">▶</button>
+            <div class="audio-info">
+              <div class="audio-title">Pratah Smarana — Morning Prayers</div>
+              <div class="audio-sub">3 verses · 2 min</div>
+            </div>
+          </div>
+
+          <div class="verse-block">
+            <div class="verse-number">Before Rising — Look at Your Palms</div>
+            <div class="verse-sanskrit">
+              कराग्रे वसते लक्ष्मीः करमध्ये सरस्वती।<br>
+              करमूले तु गोविन्दः प्रभाते करदर्शनम्॥
+            </div>
+            <div class="verse-transliteration">
+              Karagre Vasate Lakshmi Karamadhye Saraswati<br>
+              Karamule Tu Govinda Prabhate Karadarshanam
+            </div>
+            <div class="verse-translation">
+              At the tip of my hands dwells Lakshmi (goddess of prosperity),<br>
+              In the middle of my palms dwells Saraswati (goddess of wisdom),<br>
+              At the base of my hands dwells Govinda (Lord Vishnu) —<br>
+              Thus I behold my hands every morning.
+            </div>
+          </div>
+
+          <div class="verse-block">
+            <div class="verse-number">Before Touching the Ground</div>
+            <div class="verse-sanskrit">
+              समुद्रवसने देवि पर्वतस्तनमण्डले।<br>
+              विष्णुपत्नि नमस्तुभ्यं पादस्पर्शं क्षमस्व मे॥
+            </div>
+            <div class="verse-transliteration">
+              Samudravasane Devi Parvatastana Mandale<br>
+              Vishnupatni Namastubhyam Padasparsham Kshamasva Me
+            </div>
+            <div class="verse-translation">
+              O Divine Mother Earth, dressed in oceans, with mountains as your bosom,<br>
+              O consort of Vishnu — I bow to you.<br>
+              Please forgive me for touching you with my feet.
+            </div>
+          </div>
+
+          <div class="meaning-box">
+            <div class="meaning-title">The Wisdom of This Practice</div>
+            <div class="meaning-text">
+              These two verses are perhaps the most profound daily practice in all of Hinduism — and the simplest. Before a single step is taken, before checking your phone, before thinking about the day ahead — you pause to see the divine in your own hands, and to ask forgiveness from the Earth before placing your weight on her.
+              <br><br>
+              This is the essence of Hindu spirituality: the sacred is not in a distant temple — it is in your palms, it is in the ground beneath your feet, it is everywhere, always.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. SARASWATI VANDANA -->
+    <div class="prayer-card" data-filter="morning stotra" data-deity="saraswati">
+      <div class="prayer-header" onclick="togglePrayer(this)">
+        <div class="prayer-icon">🎵</div>
+        <div class="prayer-meta">
+          <div class="prayer-category">Saraswati · Students · Learning</div>
+          <div class="prayer-name">Saraswati Vandana</div>
+          <div class="prayer-sanskrit">सरस्वती वन्दना</div>
+          <div class="prayer-desc">Prayer to the goddess of knowledge, music, arts, and wisdom. Essential for students, teachers, artists, and anyone engaged in learning or creative work.</div>
+          <div class="prayer-tags">
+            <span class="tag">Students</span>
+            <span class="tag">Vasant Panchami</span>
+            <span class="tag">Learning</span>
+            <span class="tag">4 min</span>
+          </div>
+        </div>
+        <div class="prayer-expand">▾</div>
+      </div>
+      <div class="prayer-content">
+        <div class="prayer-content-inner">
+          <div class="audio-player">
+            <button class="play-btn">▶</button>
+            <div class="audio-info">
+              <div class="audio-title">Saraswati Vandana</div>
+              <div class="audio-sub">Sanskrit with Hindi meaning · 4 min</div>
+            </div>
+          </div>
+          <div class="verse-block">
+            <div class="verse-number">Shloka</div>
+            <div class="verse-sanskrit">
+              या कुन्देन्दुतुषारहारधवला या शुभ्रवस्त्रावृता<br>
+              या वीणावरदण्डमण्डितकरा या श्वेतपद्मासना।<br>
+              या ब्रह्माच्युतशंकरप्रभृतिभिर्देवैः सदा वन्दिता<br>
+              सा मां पातु सरस्वती भगवती निःशेषजाड्यापहा॥
+            </div>
+            <div class="verse-transliteration">
+              Ya Kundendutushara Haradhavala Ya Shubhravastravrita<br>
+              Ya Vinavara Dandamandita Kara Ya Shvetapadmasana<br>
+              Ya Brahmachyuta Shankara Prabhritibhir Devaih Sada Vandita<br>
+              Sa Mam Patu Saraswati Bhagavati Nihshesha Jadyapaha
+            </div>
+            <div class="verse-translation">
+              She who is as pure white as the jasmine flower, the moon, or frost —<br>
+              Who is robed in white garments, whose hands are adorned with the veena,<br>
+              Who sits upon a white lotus, eternally worshipped by Brahma, Vishnu, and Shiva —<br>
+              May that Goddess Saraswati protect me, and remove all dullness from my mind.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="om-divider">✦ ✦ ✦</div>
+
+    <p style="text-align:center; font-family: 'Cormorant Garamond', serif; font-size: 22px; font-style: italic; color: rgba(255,248,238,0.35); padding: 40px; position: relative; z-index:1;">
+      16 more prayers available in Premium — including full Durga Chalisa,<br>Vishnu Sahasranama, and complete Sundara Kanda
+    </p>
+
+  </div><!-- end prayer-grid -->
+</div><!-- end main -->
+
+<footer class="atma-footer">
+  <a href="index.html" class="footer-logo">ATM<span>A</span></a>
+  <div class="footer-links">
+    <a href="prayers.html">Prayers</a>
+    <a href="gita.html">Gita</a>
+    <a href="calendar.html">Calendar</a>
+    <a href="meditate.html">Meditate</a>
+    <a href="premium.html">Premium</a>
+  </div>
+  <p>ॐ तत् सत् · Made with devotion for the Hindu soul</p>
+</footer>
+
+<script src="atma.js"></script>
+<script type="module">
+  import { initAuthUI } from "./auth.js";
+  initAuthUI();
+</script>
+<script>
+  // Stars
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 150; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const sz = Math.random() * 2 + 0.5;
+    s.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--dur:${3+Math.random()*4}s;--min-op:${0.05+Math.random()*0.15};--max-op:${0.3+Math.random()*0.4};animation-delay:${Math.random()*5}s;`;
+    starsEl.appendChild(s);
+  }
+
+  // Toggle prayer
+  function togglePrayer(header) {
+    const card = header.closest('.prayer-card');
+    const wasOpen = card.classList.contains('open');
+    document.querySelectorAll('.prayer-card.open').forEach(c => c.classList.remove('open'));
+    if (!wasOpen) card.classList.add('open');
+  }
+
+  // Filter tabs
+  document.querySelectorAll('.filter-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const filter = tab.dataset.filter;
+      document.querySelectorAll('.prayer-card').forEach(card => {
+        if (filter === 'all' || (card.dataset.filter && card.dataset.filter.includes(filter))) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Deity filter
+  document.querySelectorAll('.deity-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.querySelectorAll('.deity-item').forEach(d => d.classList.remove('active'));
+      item.classList.add('active');
+      const deity = item.dataset.deity;
+      document.querySelectorAll('.prayer-card').forEach(card => {
+        if (deity === 'all' || (card.dataset.deity && card.dataset.deity.includes(deity))) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // Search
+  document.getElementById('searchInput').addEventListener('input', function() {
+    const q = this.value.toLowerCase();
+    document.querySelectorAll('.prayer-card').forEach(card => {
+      const text = card.textContent.toLowerCase();
+      card.style.display = text.includes(q) ? '' : 'none';
+    });
+  });
+
+  // Audio toggle (placeholder)
+  function toggleAudio(btn, id) {
+    const isPlaying = btn.textContent === '⏸';
+    document.querySelectorAll('.play-btn').forEach(b => b.textContent = '▶');
+    btn.textContent = isPlaying ? '▶' : '⏸';
+  }
+</script>
+</body>
+</html>
