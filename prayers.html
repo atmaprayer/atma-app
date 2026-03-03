@@ -366,6 +366,86 @@
     .prayer-header { padding: 20px; }
     .prayer-content-inner { padding: 20px; }
   }
+
+/* ================================================
+   MASTER NAV — identical on every page
+   ================================================ */
+#masterNav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  height: 68px;
+  padding: 0 48px;
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(10,10,26,0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(244,196,48,0.1);
+  transition: none;
+}
+#masterNav .logo {
+  font-family: 'Cinzel', serif;
+  font-size: 22px; font-weight: 700;
+  letter-spacing: 0.15em; color: #F4C430;
+  text-decoration: none; flex-shrink: 0;
+}
+#masterNav .logo span { color: #FF6B1A; }
+#masterNav .nav-links {
+  display: flex; gap: 36px;
+  list-style: none; align-items: center;
+  margin: 0; padding: 0;
+}
+#masterNav .nav-links a {
+  color: rgba(255,248,238,0.55);
+  text-decoration: none;
+  font-family: 'Crimson Pro', serif;
+  font-size: 17px; letter-spacing: 0.03em;
+  transition: color 0.25s;
+  white-space: nowrap;
+}
+#masterNav .nav-links a:hover { color: #FFE08A; }
+#masterNav .nav-links a.active { color: #F4C430; }
+#masterNav .nav-cta {
+  background: linear-gradient(135deg, #FF6B1A, #E85D04) !important;
+  color: white !important;
+  padding: 9px 22px !important;
+  font-family: 'Cinzel', serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.1em !important;
+  transition: opacity 0.25s, transform 0.25s !important;
+  clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  white-space: nowrap;
+}
+#masterNav .nav-cta:hover {
+  opacity: 0.88 !important;
+  transform: translateY(-1px) !important;
+}
+#masterNav .nav-hamburger {
+  display: none; flex-direction: column;
+  gap: 5px; cursor: pointer; padding: 4px;
+}
+#masterNav .nav-hamburger span {
+  width: 24px; height: 1px;
+  background: #F4C430; display: block;
+  transition: all 0.3s;
+}
+@media (max-width: 768px) {
+  #masterNav { padding: 0 20px; }
+  #masterNav .nav-links {
+    display: none;
+    position: fixed;
+    top: 68px; left: 0; right: 0;
+    background: rgba(10,10,26,0.99);
+    flex-direction: column;
+    padding: 20px 24px 28px;
+    border-bottom: 1px solid rgba(244,196,48,0.12);
+    gap: 18px;
+    z-index: 999;
+  }
+  #masterNav .nav-links.open { display: flex; }
+  #masterNav .nav-hamburger { display: flex; }
+  #masterNav .nav-links a { font-size: 19px; }
+}
+
 </style>
 </head>
 <body>
@@ -373,15 +453,18 @@
 <div class="stars" id="stars"></div>
 
 <!-- NAV -->
-<nav>
+<nav id="masterNav">
   <a href="/atma-app/index.html" class="logo">ATM<span>A</span></a>
-  <ul class="nav-links">
+  <ul class="nav-links" id="navLinks">
     <li><a href="/atma-app/prayers.html" class="active">Prayers</a></li>
-    <li><a href="/atma-app/gita.html">Gita Daily</a></li>
+    <li><a href="/atma-app/gita.html">Gita</a></li>
     <li><a href="/atma-app/calendar.html">Calendar</a></li>
     <li><a href="/atma-app/meditate.html">Meditate</a></li>
-    <li><a href="#" class="nav-cta">Premium</a></li>
+    <li><a href="/atma-app/premium.html" class="nav-cta">Go Premium</a></li>
   </ul>
+  <div class="nav-hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
 </nav>
 
 <!-- HEADER -->
