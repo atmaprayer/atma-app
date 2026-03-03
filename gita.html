@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0A0A1A">
+<title>Bhagavad Gita Daily — Atma</title>
+<meta name="description" content="One verse from the Bhagavad Gita every day. Sanskrit, transliteration, translation and commentary.">
+<link rel="stylesheet" href="atma.css">
+<style>
+  /* GITA-SPECIFIC STYLES */
+  .gita-hero {
+    position: relative; z-index: 1;
+    padding: 120px 48px 64px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .gita-hero-text .page-eyebrow { text-align: left; }
+  .gita-hero-text .page-title { text-align: left; font-size: clamp(44px,6vw,72px); }
+  .gita-hero-text .page-subtitle { text-align: left; margin: 0 0 32px; }
+
+  /* TODAY'S VERSE CARD */
+  .today-card {
+    background: linear-gradient(160deg, rgba(255,107,26,0.1), rgba(244,196,48,0.05));
+    border: 1px solid rgba(244,196,48,0.25);
+    padding: 40px;
+    position: relative; overflow: hidden;
+  }
+  .today-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--saffron), var(--gold), var(--saffron));
+  }
+  .today-label {
+    font-family: 'Cinzel', serif; font-size: 10px;
+    letter-spacing: 0.25em; color: var(--saffron);
+    text-transform: uppercase; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .today-label::after {
+    content: ''; flex: 1; height: 1px;
+    background: rgba(255,107,26,0.25);
+  }
+  .today-chapter {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px; color: rgba(255,248,238,0.45);
+    margin-bottom: 8px; font-style: italic;
+  }
+  .today-verse-num {
+    font-family: 'Cinzel', serif; font-size: 32px;
+    font-weight: 700; color: var(--gold); line-height: 1;
+    margin-bottom: 20px;
+  }
+  .today-sanskrit {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; line-height: 1.8;
+    color: var(--gold-light); margin-bottom: 16px;
+  }
+  .today-translation {
+    font-size: 18px; line-height: 1.85;
+    color: rgba(255,248,238,0.8);
+    border-left: 2px solid var(--saffron);
+    padding-left: 16px; margin-bottom: 20px;
+  }
+  .today-progress {
+    height: 3px; background: rgba(255,255,255,0.06);
+    border-radius: 2px; overflow: hidden; margin-top: 24px;
+  }
+  .today-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--saffron), var(--gold));
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+  .today-progress-label {
+    font-family: 'Cinzel', serif; font-size: 10px;
+    letter-spacing: 0.15em; color: rgba(255,248,238,0.3);
+    margin-top: 8px; text-align: right;
+  }
+
+  /* CHAPTER GRID */
+  .chapters-section {
+    position: relative; z-index: 1;
+    max-width: 1200px; margin: 0 auto;
+    padding: 0 48px 80px;
+  }
+  .chapters-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 40px;
+  }
+  .chapters-grid {
+    display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px;
+    margin-bottom: 60px;
+  }
+  .chapter-btn {
+    background: rgba(255,248,238,0.03);
+    border: 1px solid rgba(244,196,48,0.1);
+    padding: 16px 8px; text-align: center; cursor: pointer;
+    transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .chapter-btn:hover, .chapter-btn.active {
+    background: rgba(255,107,26,0.1);
+    border-color: rgba(255,107,26,0.4);
+  }
+  .chapter-btn.completed { border-color: rgba(244,196,48,0.3); }
+  .chapter-btn.completed::after {
+    content: '✦'; position: absolute; top: 4px; right: 6px;
+    font-size: 8px; color: var(--gold); opacity: 0.6;
+  }
+  .chapter-num {
+    font-family: 'Cinzel', serif; font-size: 18px;
+    font-weight: 700; color: var(--gold); display: block; margin-bottom: 4px;
+  }
+  .chapter-name {
+    font-size: 11px; color: rgba(255,248,238,0.4);
+    line-height: 1.3;
+  }
+
+  /* VERSE DISPLAY */
+  .verse-display {
+    background: linear-gradient(135deg, rgba(255,107,26,0.05), rgba(244,196,48,0.02));
+    border: 1px solid rgba(244,196,48,0.12);
+    padding: 48px; margin-bottom: 2px;
+  }
+  .verse-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 32px;
+  }
+  .verse-nav-btn {
+    background: transparent; border: 1px solid rgba(244,196,48,0.2);
+    color: var(--gold); padding: 10px 20px;
+    font-family: 'Cinzel', serif; font-size: 11px;
+    letter-spacing: 0.1em; cursor: pointer; transition: all 0.3s;
+  }
+  .verse-nav-btn:hover { background: rgba(244,196,48,0.08); border-color: var(--gold); }
+  .verse-ref {
+    font-family: 'Cinzel', serif; font-size: 14px;
+    letter-spacing: 0.15em; color: var(--gold);
+  }
+  .verse-tabs {
+    display: flex; gap: 0; margin-bottom: 32px;
+    border-bottom: 1px solid rgba(244,196,48,0.1);
+  }
+  .verse-tab {
+    padding: 12px 24px; background: transparent; border: none;
+    color: rgba(255,248,238,0.4); font-family: 'Cinzel', serif;
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.3s; border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+  }
+  .verse-tab.active { color: var(--gold); border-bottom-color: var(--saffron); }
+  .verse-panel { display: none; }
+  .verse-panel.active { display: block; }
+
+  .verse-sanskrit-large {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px; line-height: 1.9;
+    color: var(--gold-light); margin-bottom: 24px; font-weight: 300;
+  }
+  .verse-transliteration-large {
+    font-size: 19px; line-height: 1.9;
+    color: rgba(255,248,238,0.6); font-style: italic; margin-bottom: 24px;
+  }
+  .verse-translation-large {
+    font-size: 20px; line-height: 1.9;
+    color: rgba(255,248,238,0.9); margin-bottom: 24px;
+  }
+  .verse-commentary {
+    font-size: 18px; line-height: 1.9;
+    color: rgba(255,248,238,0.7);
+    padding: 28px; background: rgba(255,248,238,0.02);
+    border-left: 3px solid var(--saffron);
+  }
+  .commentary-source {
+    font-family: 'Cinzel', serif; font-size: 10px;
+    letter-spacing: 0.2em; color: var(--saffron);
+    margin-bottom: 12px; text-transform: uppercase;
+  }
+
+  /* STREAK */
+  .streak-bar {
+    display: flex; align-items: center; gap: 20px;
+    background: rgba(255,107,26,0.06);
+    border: 1px solid rgba(255,107,26,0.15);
+    padding: 20px 32px; margin-bottom: 40px;
+    position: relative; z-index: 1;
+    max-width: 1200px; margin-left: auto; margin-right: auto;
+    margin-bottom: 0;
+  }
+  .streak-fire { font-size: 32px; }
+  .streak-info { flex: 1; }
+  .streak-num {
+    font-family: 'Cinzel', serif; font-size: 28px;
+    font-weight: 700; color: var(--saffron); line-height: 1;
+  }
+  .streak-label {
+    font-size: 15px; color: rgba(255,248,238,0.45);
+    font-style: italic; margin-top: 2px;
+  }
+  .streak-days { display: flex; gap: 6px; }
+  .streak-day {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: rgba(255,248,238,0.05);
+    border: 1px solid rgba(255,248,238,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cinzel', serif; font-size: 9px; color: rgba(255,248,238,0.3);
+  }
+  .streak-day.done { background: rgba(255,107,26,0.2); border-color: var(--saffron); color: var(--saffron); }
+  .streak-day.today { background: var(--saffron); border-color: var(--saffron); color: white; }
+
+  @media (max-width: 768px) {
+    .gita-hero { grid-template-columns: 1fr; padding: 100px 20px 40px; gap: 40px; }
+    .chapters-section { padding: 0 20px 60px; }
+    .chapters-grid { grid-template-columns: repeat(3, 1fr); }
+    .verse-display { padding: 24px; }
+    .chapters-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="stars" id="stars"></div>
+
+<nav class="atma-nav">
+  <a href="index.html" class="logo">ATM<span>A</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="prayers.html">Prayers</a></li>
+    <li><a href="gita.html">Gita Daily</a></li>
+    <li><a href="calendar.html">Calendar</a></li>
+    <li><a href="meditate.html">Meditate</a></li>
+    <li><a href="premium.html" class="nav-cta">Go Premium</a></li>
+  </ul>
+  
+  <div class="account">
+    <button id="loginBtn" type="button" class="nav-cta">Log in</button>
+    <span id="userChip" class="chip" style="display:none"></span>
+    <button id="logoutBtn" type="button" class="btn-outline small" style="display:none">Log out</button>
+  </div>
+  <div class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO + TODAY'S VERSE -->
+<div class="gita-hero">
+  <div class="gita-hero-text reveal">
+    <span class="page-eyebrow">Sacred Scripture</span>
+    <h1 class="page-title">Bhagavad<br><em>Gita Daily</em></h1>
+    <p class="page-subtitle">One verse every day. 700 verses. The complete Gita in two years — with Sanskrit, transliteration, translation, and commentary.</p>
+    <div style="display:flex;gap:16px;margin-top:32px;flex-wrap:wrap;">
+      <a href="#verses" class="btn-primary">Today's Verse</a>
+      <a href="#chapters" class="btn-outline">Browse Chapters</a>
+    </div>
+  </div>
+
+  <div class="today-card reveal">
+    <div class="today-label">Today's Verse</div>
+    <div class="today-chapter">Chapter 2 · Sankhya Yoga</div>
+    <div class="today-verse-num">2.47</div>
+    <div class="today-sanskrit">
+      कर्मण्येवाधिकारस्ते मा फलेषु कदाचन।<br>
+      मा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि॥
+    </div>
+    <div class="today-translation">
+      You have the right to perform your prescribed duties, but you are not entitled to the fruits of your actions. Never consider yourself the cause of results, nor be attached to inaction.
+    </div>
+    <div style="display:flex;gap:10px;margin-top:16px;">
+      <button class="verse-nav-btn" style="flex:1;" onclick="toggleAudio(this)">▶ Listen</button>
+      <button class="verse-nav-btn" onclick="markDone(this)" id="markDoneBtn">Mark Complete ✦</button>
+    </div>
+    <div class="today-progress">
+      <div class="today-progress-fill" id="progressFill" style="width:6.7%"></div>
+    </div>
+    <div class="today-progress-label" id="progressLabel">47 of 700 verses</div>
+  </div>
+</div>
+
+<!-- STREAK -->
+<div class="streak-bar reveal" style="margin: 0 48px 48px;">
+  <div class="streak-fire">🔥</div>
+  <div class="streak-info">
+    <div class="streak-num" id="streakNum">1</div>
+    <div class="streak-label">day streak — keep going</div>
+  </div>
+  <div class="streak-days" id="streakDays">
+    <div class="streak-day">M</div>
+    <div class="streak-day">T</div>
+    <div class="streak-day">W</div>
+    <div class="streak-day">T</div>
+    <div class="streak-day">F</div>
+    <div class="streak-day">S</div>
+    <div class="streak-day today">S</div>
+  </div>
+</div>
+
+<!-- VERSE BROWSER -->
+<div class="chapters-section" id="chapters">
+  <div class="chapters-header reveal">
+    <div>
+      <span class="section-label">All 18 Chapters</span>
+      <h2 class="section-title">Browse the <em>Gita</em></h2>
+    </div>
+    <p style="font-size:16px;color:rgba(255,248,238,0.4);font-style:italic;">700 verses · 18 chapters</p>
+  </div>
+
+  <div class="chapters-grid reveal" id="chaptersGrid">
+    <!-- Generated by JS -->
+  </div>
+
+  <!-- VERSE DISPLAY -->
+  <div class="verse-display reveal" id="verses">
+    <div class="verse-nav">
+      <button class="verse-nav-btn" onclick="prevVerse()">← Previous</button>
+      <span class="verse-ref" id="verseRef">Chapter 2, Verse 47</span>
+      <button class="verse-nav-btn" onclick="nextVerse()">Next →</button>
+    </div>
+
+    <div class="verse-tabs">
+      <button class="verse-tab active" onclick="switchTab(this,'sanskrit')">Sanskrit</button>
+      <button class="verse-tab" onclick="switchTab(this,'transliteration')">Transliteration</button>
+      <button class="verse-tab" onclick="switchTab(this,'translation')">Translation</button>
+      <button class="verse-tab" onclick="switchTab(this,'commentary')">Commentary</button>
+    </div>
+
+    <div class="verse-panel active" id="panel-sanskrit">
+      <div class="verse-sanskrit-large" id="versesSanskrit">
+        कर्मण्येवाधिकारस्ते मा फलेषु कदाचन।<br>
+        मा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि॥
+      </div>
+    </div>
+    <div class="verse-panel" id="panel-transliteration">
+      <div class="verse-transliteration-large" id="versesTranslit">
+        Karmanye Vadhikaraste Ma Phaleshu Kadachana<br>
+        Ma Karma Phala Hetur Bhur Ma Te Sango Stv Akarmani
+      </div>
+    </div>
+    <div class="verse-panel" id="panel-translation">
+      <div class="verse-translation-large" id="versesTranslation">
+        You have a right to perform your prescribed duties, but you are not entitled to the fruits of your actions. Never consider yourself the cause of the results of your activities, and never be attached to not doing your duty.
+      </div>
+    </div>
+    <div class="verse-panel" id="panel-commentary">
+      <div class="verse-commentary">
+        <div class="commentary-source">Swami Vivekananda's Reflection</div>
+        <p id="versesCommentary">
+          This single verse is perhaps the most quoted line in all of Hindu philosophy — and one of the most profound pieces of wisdom in human history. Krishna is not saying that results don't matter. He is saying that your attachment to results corrupts the purity of your action. When you work without grasping at outcomes, you work with your full being — and paradoxically, you tend to do your best work.
+          <br><br>
+          This is not passivity or indifference. It is the highest form of engagement: to give everything to the action itself, while releasing the need to control what comes from it. This is the Karma Yoga path — union with the divine through action.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PREMIUM LOCK for full chapter access -->
+<div style="max-width:1200px;margin:0 auto;padding:0 48px 80px;position:relative;z-index:1;">
+  <div class="premium-lock reveal" data-premium="lock">
+    <p>🔒 All 700 verses with full commentary available in Premium</p>
+    <a href="premium.html" class="btn-primary">Unlock Full Gita — $9.99/mo</a>
+  </div>
+
+  <div class="premium-lock reveal" data-premium="only" style="border-color: rgba(244,196,48,0.22); background: linear-gradient(135deg, rgba(244,196,48,0.05), rgba(255,107,26,0.03));">
+    <p style="margin-bottom:12px;">✨ Premium active — welcome deeper into the Gita<\/p>
+    <div style="max-width:820px;margin:0 auto;color: rgba(255,248,238,0.6); line-height:1.85;">
+      <p><strong style="color: rgba(255,253,245,0.92);">New (Premium):<\/strong> Daily verse reflections, chapter-by-chapter navigation, and extended commentary are being rolled out.<\/p>
+      <p style="margin-top:10px;">For now, this page will recognize your Premium status automatically every time you return.<\/p>
+    <\/div>
+  <\/div>
+
+</div>
+
+<footer class="atma-footer">
+  <a href="index.html" class="footer-logo">ATM<span>A</span></a>
+  <div class="footer-links">
+    <a href="prayers.html">Prayers</a>
+    <a href="gita.html">Gita</a>
+    <a href="calendar.html">Calendar</a>
+    <a href="meditate.html">Meditate</a>
+    <a href="premium.html">Premium</a>
+  </div>
+  <p>ॐ तत् सत् · Made with devotion for the Hindu soul</p>
+</footer>
+
+<script src="atma.js"></script>
+<script type="module">
+  import { initAuthUI } from "./auth.js";
+  import { initPremiumAccess } from "./premium-access.js";
+  initAuthUI();
+  initPremiumAccess();
+</script>
+<script>
+const chapters = [
+  { num: 1, name: "Arjuna's Grief", verses: 47 },
+  { num: 2, name: "Sankhya Yoga", verses: 72 },
+  { num: 3, name: "Karma Yoga", verses: 43 },
+  { num: 4, name: "Jnana Yoga", verses: 42 },
+  { num: 5, name: "Karma Sanyasa", verses: 29 },
+  { num: 6, name: "Dhyana Yoga", verses: 47 },
+  { num: 7, name: "Vijnana Yoga", verses: 30 },
+  { num: 8, name: "Aksara Brahma", verses: 28 },
+  { num: 9, name: "Raja Vidya", verses: 34 },
+  { num: 10, name: "Vibhuti Yoga", verses: 42 },
+  { num: 11, name: "Vishwarupa", verses: 55 },
+  { num: 12, name: "Bhakti Yoga", verses: 20 },
+  { num: 13, name: "Kshetra Yoga", verses: 35 },
+  { num: 14, name: "Gunatraya", verses: 27 },
+  { num: 15, name: "Purushottama", verses: 20 },
+  { num: 16, name: "Daivasura", verses: 24 },
+  { num: 17, name: "Shraddhatraya", verses: 28 },
+  { num: 18, name: "Moksha Yoga", verses: 78 }
+];
+
+const grid = document.getElementById('chaptersGrid');
+chapters.forEach((ch, i) => {
+  const btn = document.createElement('div');
+  btn.className = 'chapter-btn clickable' + (i === 1 ? ' active' : '') + (i < 2 ? ' completed' : '');
+  btn.innerHTML = `<span class="chapter-num">${ch.num}</span><span class="chapter-name">${ch.name}</span>`;
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.chapter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('verseRef').textContent = `Chapter ${ch.num} · ${ch.name}`;
+    document.getElementById('verses').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  grid.appendChild(btn);
+});
+
+function switchTab(tab, panel) {
+  document.querySelectorAll('.verse-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.verse-panel').forEach(p => p.classList.remove('active'));
+  tab.classList.add('active');
+  document.getElementById('panel-' + panel).classList.add('active');
+}
+
+function prevVerse() {
+  // Navigate to previous verse
+  showNotification('Previous verse loading...');
+}
+function nextVerse() {
+  showNotification('Next verse loading...');
+}
+
+function markDone(btn) {
+  btn.textContent = '✓ Completed';
+  btn.style.borderColor = 'var(--gold)';
+  btn.style.color = 'var(--gold)';
+  const streak = parseInt(document.getElementById('streakNum').textContent);
+  document.getElementById('streakNum').textContent = streak + 1;
+  showNotification('🙏 Verse completed! Keep your streak going.');
+}
+
+function showNotification(msg) {
+  const n = document.createElement('div');
+  n.style.cssText = 'position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:rgba(10,10,26,0.95);border:1px solid rgba(244,196,48,0.3);color:var(--gold-light);padding:14px 28px;font-family:Crimson Pro,serif;font-size:17px;font-style:italic;z-index:999;pointer-events:none;transition:opacity 0.5s;';
+  n.textContent = msg;
+  document.body.appendChild(n);
+  setTimeout(() => { n.style.opacity = '0'; setTimeout(() => n.remove(), 500); }, 2500);
+}
+
+// Load saved progress
+const saved = localStorage.getItem('atma_verse') || 47;
+const pct = (saved / 700 * 100).toFixed(1);
+document.getElementById('progressFill').style.width = pct + '%';
+document.getElementById('progressLabel').textContent = saved + ' of 700 verses';
+</script>
+</body>
+</html>
