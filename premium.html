@@ -593,16 +593,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </script>
 
-<script>
-// Stripe Payment Links (live)
-const STRIPE_LINKS = {
-  yearly: "https://buy.stripe.com/28EcN58JD60y1jZgnjcAo01",
-  monthly: "https://buy.stripe.com/3cI9ATf81agOe6L6MJcAo00"
-};
-   
+<!-- Stripe + Require Login BEFORE checkout -->
 <script type="module">
   import { auth } from "./firebase-init.js";
   import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+  const STRIPE_LINKS = {
+    yearly: "https://buy.stripe.com/28EcN58JD60y1jZgnjcAo01",
+    monthly: "https://buy.stripe.com/3cI9ATf81ag0e6L6MJcAo00"
+  };
 
   let currentUser = null;
 
@@ -610,53 +609,46 @@ const STRIPE_LINKS = {
     currentUser = user || null;
   });
 
+  // This is the ONLY goPremium function now
   window.goPremium = function(plan) {
     if (!currentUser) {
-      alert("Please log in first so we can attach Premium to your account.");
+      alert("Please log in first so Premium can be saved to your account.");
       return;
     }
+    const url = STRIPE_LINKS[plan];
+    if (!url) return;
+    window.location.href = url;
+  };
 
-    const links = {
-      monthly: "https://buy.stripe.com/3cI9ATf81ag0e6L6MJcAo00",
-      yearly: "https://buy.stripe.com/28EcN58JD60y1jZgnjcAo01"
-    };
+  // Backwards compatibility in case any old button calls startTrial()
+  window.startTrial = function() {
+    window.goPremium("yearly");
+  };
+</script>
 
-    window.location.href = links[plan];
+<!-- FAQ (normal script) -->
+<script>
+  const faqs = [
+    { q: "Is the free version actually useful?", a: "Absolutely. The free version includes daily mantras, 8 complete prayers with full Sanskrit and meaning, the Gita verse of the day, the festival calendar, and 3 guided meditation sessions. Many people find this deeply valuable on its own. Premium is for those who want to go deeper." },
+    { q: "Is the content authentic and accurate?", a: "Every prayer, mantra, and text is drawn from authentic Hindu scriptures and traditions. We have consulted with Sanskrit scholars and Hindu practitioners to ensure accuracy. If you ever find an error, please contact us — we take this responsibility seriously." },
+    { q: "Can I cancel anytime?", a: "Yes, completely. There are no long-term commitments. Cancel before your 3-day trial ends and you won't be charged a single rupee — or dollar. We believe in earning your trust through quality, not locking you in." },
+    { q: "Does Premium include my whole family?", a: "Yes — Premium includes family sharing for up to 5 members. Parents, grandparents, children — your whole family can practice together on one subscription. This is especially meaningful for diaspora families wanting to share the tradition." },
+    { q: "What if I'm new to Hinduism?", a: "Atma was built with the diaspora in mind — people who grew up Hindu but may not have had a deep connection to the practice, as well as people discovering the tradition for the first time. Everything is explained with context, meaning, and warmth. You don't need any prior knowledge." },
+    { q: "Will you add more content?", a: "Yes — we add new prayers, meditations, and learning content every week. Premium members get all new content automatically. We have years of content planned — we're only just beginning." }
+  ];
+
+  const faqList = document.getElementById('faqList');
+  if (faqList) {
+    faqs.forEach(f => {
+      const item = document.createElement('div');
+      item.className = 'faq-item';
+      item.innerHTML = `<div class="faq-q clickable">${f.q}<span>▾</span></div><div class="faq-a">${f.a}</div>`;
+      item.querySelector('.faq-q').addEventListener('click', () => {
+        const wasOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        if (!wasOpen) item.classList.add('open');
+      });
+      faqList.appendChild(item);
+    });
   }
 </script>
-   
-const faqs = [
-  { q: "Is the free version actually useful?", a: "Absolutely. The free version includes daily mantras, 8 complete prayers with full Sanskrit and meaning, the Gita verse of the day, the festival calendar, and 3 guided meditation sessions. Many people find this deeply valuable on its own. Premium is for those who want to go deeper." },
-  { q: "Is the content authentic and accurate?", a: "Every prayer, mantra, and text is drawn from authentic Hindu scriptures and traditions. We have consulted with Sanskrit scholars and Hindu practitioners to ensure accuracy. If you ever find an error, please contact us — we take this responsibility seriously." },
-  { q: "Can I cancel anytime?", a: "Yes, completely. There are no long-term commitments. Cancel before your 3-day trial ends and you won't be charged a single rupee — or dollar. We believe in earning your trust through quality, not locking you in." },
-  { q: "Does Premium include my whole family?", a: "Yes — Premium includes family sharing for up to 5 members. Parents, grandparents, children — your whole family can practice together on one subscription. This is especially meaningful for diaspora families wanting to share the tradition." },
-  { q: "What if I'm new to Hinduism?", a: "Atma was built with the diaspora in mind — people who grew up Hindu but may not have had a deep connection to the practice, as well as people discovering the tradition for the first time. Everything is explained with context, meaning, and warmth. You don't need any prior knowledge." },
-  { q: "Will you add more content?", a: "Yes — we add new prayers, meditations, and learning content every week. Premium members get all new content automatically. We have years of content planned — we're only just beginning." }
-];
-
-const faqList = document.getElementById('faqList');
-faqs.forEach(f => {
-  const item = document.createElement('div');
-  item.className = 'faq-item';
-  item.innerHTML = `<div class="faq-q clickable">${f.q}<span>▾</span></div><div class="faq-a">${f.a}</div>`;
-  item.querySelector('.faq-q').addEventListener('click', () => {
-    const wasOpen = item.classList.contains('open');
-    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-    if (!wasOpen) item.classList.add('open');
-  });
-  faqList.appendChild(item);
-});
-
-function goPremium(plan) {
-  const url = STRIPE_LINKS[plan];
-  if (!url) return;
-  window.location.href = url;
-}
-
-// Backwards compatibility (if any old button still calls startTrial)
-function startTrial() {
-  goPremium('yearly');
-}
-</script>
-</body>
-</html>
