@@ -1,7 +1,7 @@
 // firebase-init.js
 // Firebase (CDN / ES Modules) for GitHub Pages
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
 // 1) Replace the object below with your Firebase Web App config (Firebase Console → Project settings → Your apps)
 // 2) Make sure your GitHub Pages domain (YOURNAME.github.io) is added in Auth → Settings → Authorized domains
