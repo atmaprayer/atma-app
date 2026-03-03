@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0A0A1A">
+<title>Hindu Festival Calendar — Atma</title>
+<meta name="description" content="Complete Hindu festival calendar with rituals, significance, and fasting guides.">
+<link rel="stylesheet" href="style.css">
+<style>
+  .cal-layout {
+    position: relative; z-index: 1;
+    max-width: 1200px; margin: 0 auto;
+    padding: 0 48px 80px;
+    display: grid; grid-template-columns: 1fr 360px; gap: 48px;
+  }
+
+  /* CALENDAR GRID */
+  .calendar-wrap { }
+  .cal-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 24px;
+  }
+  .cal-month {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px; font-weight: 300; color: var(--warm-white);
+  }
+  .cal-month em { color: var(--gold); font-style: italic; }
+  .cal-nav { display: flex; gap: 8px; }
+  .cal-nav-btn {
+    background: transparent; border: 1px solid rgba(244,196,48,0.2);
+    color: var(--gold); padding: 8px 16px; font-family: 'Cinzel', serif;
+    font-size: 14px; cursor: pointer; transition: all 0.3s;
+  }
+  .cal-nav-btn:hover { background: rgba(244,196,48,0.08); }
+
+  .cal-grid {
+    display: grid; grid-template-columns: repeat(7,1fr); gap: 2px;
+    margin-bottom: 32px;
+  }
+  .cal-day-header {
+    text-align: center; padding: 12px 4px;
+    font-family: 'Cinzel', serif; font-size: 10px;
+    letter-spacing: 0.15em; color: rgba(255,248,238,0.3);
+    text-transform: uppercase;
+  }
+  .cal-day {
+    min-height: 80px; padding: 10px;
+    background: rgba(255,248,238,0.02);
+    border: 1px solid rgba(255,248,238,0.04);
+    cursor: pointer; transition: all 0.3s; position: relative;
+    display: flex; flex-direction: column;
+  }
+  .cal-day:hover { background: rgba(255,107,26,0.06); border-color: rgba(255,107,26,0.2); }
+  .cal-day.today {
+    background: rgba(255,107,26,0.08);
+    border-color: rgba(255,107,26,0.35);
+  }
+  .cal-day.other-month { opacity: 0.25; }
+  .cal-day.has-festival { border-color: rgba(244,196,48,0.2); }
+  .cal-day.selected { background: rgba(244,196,48,0.08); border-color: var(--gold); }
+  .day-num {
+    font-family: 'Cinzel', serif; font-size: 13px;
+    color: rgba(255,248,238,0.6); margin-bottom: 4px;
+  }
+  .cal-day.today .day-num { color: var(--saffron); font-weight: 700; }
+  .festival-dot {
+    font-size: 10px; line-height: 1.4;
+    color: var(--gold); flex: 1;
+    overflow: hidden; display: -webkit-box;
+    -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  }
+  .festival-dot.major { color: var(--saffron); font-weight: 600; }
+  .tithi-label {
+    font-family: 'Cinzel', serif; font-size: 8px;
+    letter-spacing: 0.1em; color: rgba(244,196,48,0.35);
+    text-transform: uppercase; margin-top: auto;
+  }
+
+  /* UPCOMING */
+  .upcoming-section { margin-top: 40px; }
+  .upcoming-title {
+    font-family: 'Cinzel', serif; font-size: 11px;
+    letter-spacing: 0.25em; color: var(--saffron);
+    text-transform: uppercase; margin-bottom: 16px;
+  }
+  .upcoming-list { display: flex; flex-direction: column; gap: 2px; }
+  .upcoming-item {
+    display: flex; gap: 20px; padding: 16px 20px;
+    background: rgba(255,248,238,0.02);
+    border: 1px solid rgba(255,248,238,0.05);
+    cursor: pointer; transition: all 0.3s; align-items: flex-start;
+  }
+  .upcoming-item:hover { background: rgba(255,107,26,0.06); border-color: rgba(255,107,26,0.2); }
+  .upcoming-date {
+    text-align: center; min-width: 48px; flex-shrink: 0;
+  }
+  .upcoming-day {
+    font-family: 'Cinzel', serif; font-size: 22px;
+    font-weight: 700; color: var(--gold); line-height: 1;
+  }
+  .upcoming-month {
+    font-family: 'Cinzel', serif; font-size: 9px;
+    letter-spacing: 0.15em; color: rgba(255,248,238,0.35);
+    text-transform: uppercase;
+  }
+  .upcoming-info { flex: 1; }
+  .upcoming-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; color: var(--warm-white); margin-bottom: 2px;
+  }
+  .upcoming-deity {
+    font-size: 14px; color: rgba(255,248,238,0.4); font-style: italic;
+  }
+  .upcoming-badge {
+    padding: 3px 10px;
+    font-family: 'Cinzel', serif; font-size: 9px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .badge-major { background: rgba(255,107,26,0.15); color: var(--saffron); border: 1px solid rgba(255,107,26,0.2); }
+  .badge-fast { background: rgba(244,196,48,0.08); color: var(--gold); border: 1px solid rgba(244,196,48,0.15); }
+
+  /* SIDEBAR — FESTIVAL DETAIL */
+  .festival-detail {
+    position: sticky; top: 90px;
+    height: fit-content;
+  }
+  .detail-card {
+    background: linear-gradient(160deg, rgba(255,107,26,0.07), rgba(244,196,48,0.03));
+    border: 1px solid rgba(244,196,48,0.15);
+    padding: 32px; margin-bottom: 16px;
+  }
+  .detail-icon { font-size: 48px; margin-bottom: 16px; display: block; }
+  .detail-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 30px; font-weight: 300; color: var(--warm-white);
+    margin-bottom: 4px; line-height: 1.2;
+  }
+  .detail-date-label {
+    font-family: 'Cinzel', serif; font-size: 10px;
+    letter-spacing: 0.2em; color: var(--saffron);
+    text-transform: uppercase; margin-bottom: 16px;
+  }
+  .detail-desc {
+    font-size: 17px; line-height: 1.85;
+    color: rgba(255,248,238,0.7); margin-bottom: 20px;
+  }
+  .detail-section-title {
+    font-family: 'Cinzel', serif; font-size: 10px;
+    letter-spacing: 0.2em; color: var(--gold);
+    text-transform: uppercase; margin: 20px 0 10px;
+    padding-top: 20px; border-top: 1px solid rgba(255,248,238,0.06);
+  }
+  .ritual-list { list-style: none; }
+  .ritual-list li {
+    padding: 8px 0 8px 18px; position: relative;
+    font-size: 16px; color: rgba(255,248,238,0.7);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .ritual-list li::before {
+    content: '✦'; position: absolute; left: 0;
+    color: var(--saffron); font-size: 9px; top: 11px;
+  }
+
+  .tithi-card {
+    background: rgba(255,248,238,0.02);
+    border: 1px solid rgba(255,248,238,0.06);
+    padding: 20px 24px;
+  }
+  .tithi-title {
+    font-family: 'Cinzel', serif; font-size: 10px;
+    letter-spacing: 0.2em; color: rgba(255,248,238,0.3);
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  .tithi-item {
+    display: flex; justify-content: space-between; padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 15px; color: rgba(255,248,238,0.6);
+  }
+  .tithi-item span:last-child { color: var(--gold-light); }
+
+  @media (max-width: 968px) {
+    .cal-layout { grid-template-columns: 1fr; padding: 0 20px 60px; }
+    .festival-detail { position: relative; top: 0; }
+    .cal-day { min-height: 60px; }
+  }
+</style>
+</head>
+<body>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="stars" id="stars"></div>
+
+<nav>
+  <a href="index.html" class="logo">ATM<span>A</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="prayers.html">Prayers</a></li>
+    <li><a href="gita.html">Gita Daily</a></li>
+    <li><a href="calendar.html" class="active">Calendar</a></li>
+    <li><a href="meditate.html">Meditate</a></li>
+    <li><a href="premium.html" class="nav-cta">Go Premium</a></li>
+  </ul>
+  <div class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<div class="page-header">
+  <span class="page-eyebrow">Vedic Calendar</span>
+  <h1 class="page-title">Hindu <em>Festival</em> Calendar</h1>
+  <p class="page-subtitle">Every festival, fasting day, and auspicious tithi — with rituals, significance, and guided practice</p>
+</div>
+
+<div class="cal-layout">
+  <!-- LEFT: CALENDAR + UPCOMING -->
+  <div>
+    <div class="cal-header reveal">
+      <div class="cal-month" id="calMonthYear">March <em>2026</em></div>
+      <div class="cal-nav">
+        <button class="cal-nav-btn" onclick="changeMonth(-1)">←</button>
+        <button class="cal-nav-btn" onclick="changeMonth(1)">→</button>
+      </div>
+    </div>
+
+    <div class="cal-grid reveal" id="calGrid">
+      <!-- Days of week headers -->
+      <div class="cal-day-header">Sun</div>
+      <div class="cal-day-header">Mon</div>
+      <div class="cal-day-header">Tue</div>
+      <div class="cal-day-header">Wed</div>
+      <div class="cal-day-header">Thu</div>
+      <div class="cal-day-header">Fri</div>
+      <div class="cal-day-header">Sat</div>
+    </div>
+
+    <!-- UPCOMING FESTIVALS -->
+    <div class="upcoming-section reveal">
+      <div class="upcoming-title">Upcoming Festivals</div>
+      <div class="upcoming-list" id="upcomingList"></div>
+    </div>
+  </div>
+
+  <!-- RIGHT: DETAIL PANEL -->
+  <div class="festival-detail reveal">
+    <div class="detail-card" id="detailCard">
+      <span class="detail-icon" id="detailIcon">🗓️</span>
+      <div class="detail-name" id="detailName">Select a Festival</div>
+      <div class="detail-date-label" id="detailDate">Click any highlighted date</div>
+      <div class="detail-desc" id="detailDesc">
+        Tap any festival on the calendar to see its significance, rituals, fasting guide, and how to celebrate at home.
+      </div>
+      <div id="detailRitualsWrap" style="display:none;">
+        <div class="detail-section-title">How to Celebrate</div>
+        <ul class="ritual-list" id="detailRituals"></ul>
+        <div class="detail-section-title">Significance</div>
+        <p class="detail-desc" id="detailSignificance"></p>
+      </div>
+    </div>
+
+    <!-- TITHI TODAY -->
+    <div class="tithi-card">
+      <div class="tithi-title">Today's Vedic Info</div>
+      <div class="tithi-item"><span>Tithi</span><span id="todayTithi">Trayodashi</span></div>
+      <div class="tithi-item"><span>Paksha</span><span>Shukla (Waxing)</span></div>
+      <div class="tithi-item"><span>Nakshatra</span><span id="todayNakshatra">Rohini</span></div>
+      <div class="tithi-item"><span>Vara</span><span id="todayVara">Somavara (Monday)</span></div>
+      <div class="tithi-item"><span>Month</span><span>Phalguna</span></div>
+      <div class="tithi-item"><span>Samvat</span><span>2082 Vikram</span></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <a href="index.html" class="footer-logo">ATM<span>A</span></a>
+  <div class="footer-links">
+    <a href="prayers.html">Prayers</a>
+    <a href="gita.html">Gita</a>
+    <a href="calendar.html">Calendar</a>
+    <a href="meditate.html">Meditate</a>
+    <a href="premium.html">Premium</a>
+  </div>
+  <p>ॐ तत् सत् · Made with devotion for the Hindu soul</p>
+</footer>
+
+<script src="script.js"></script>
+<script>
+const festivals = {
+  "2026-03-13": { name: "Maha Shivaratri", icon: "🔱", deity: "Lord Shiva", badge: "major",
+    desc: "The Great Night of Shiva — the most sacred night in the Shaiva calendar. Devotees stay awake through the night chanting Om Namah Shivaya, fasting, and performing abhisheka.",
+    rituals: ["Fast throughout the day — water only or fruit fast", "Perform abhisheka with milk, honey, ghee, yogurt, and water", "Chant Om Namah Shivaya 108 times each of the 4 night watches", "Stay awake through the night in prayer and meditation", "Offer bel leaves (bilva patra) to Shiva — each leaf is precious to him", "Visit or virtually attend a Shiva temple for the night"],
+    significance: "Shivaratri occurs on the 14th night of the dark fortnight in Phalguna. It commemorates the wedding of Shiva and Parvati, and the night Shiva performed the Tandava dance. It is believed that on this night, Shiva grants moksha to devoted worshippers."
+  },
+  "2026-03-25": { name: "Holi", icon: "🎨", deity: "Lord Krishna / Holika", badge: "major",
+    desc: "The festival of colors celebrating the victory of devotion over arrogance, and the arrival of spring. The evening before features Holika Dahan — burning of a bonfire.",
+    rituals: ["Evening before: light Holika Dahan bonfire, circle it 3 times", "Morning: play with natural colors — gulal (dry color) preferred", "Sing traditional Holi songs (Phag)", "Offer coconut and wheat grains to the Holika fire", "Prepare gujiya, thandai, and malpua", "Visit temple and offer flowers to Krishna"],
+    significance: "Holi celebrates the story of Prahlada — a young devotee of Vishnu whose aunt Holika tried to kill him by sitting with him in fire. By Vishnu's grace, Prahlada was protected and Holika burned. The festival reminds us that true devotion is indestructible."
+  },
+  "2026-04-06": { name: "Ram Navami", icon: "🏹", deity: "Lord Rama", badge: "major",
+    desc: "The birthday of Lord Rama — seventh avatar of Vishnu and the ideal king, husband, son, and warrior. One of the most joyful festivals of the Hindu year.",
+    rituals: ["Read or listen to Sundara Kanda from Ramayana", "Fast until noon — break fast with panchamrit", "Recite Rama Raksha Stotra and Sri Ram Jai Ram mantra", "Perform puja with tulsi leaves — sacred to Rama", "Prepare and distribute prasad of panchamrit and fruits", "Sing bhajans in praise of Rama"],
+    significance: "Rama is the embodiment of dharma (righteousness) — the Maryada Purushottama, the highest upholder of duty. His life, told in Valmiki's Ramayana, is a complete guide to righteous living."
+  },
+  "2026-04-14": { name: "Tamil New Year / Vishu", icon: "🌸", deity: "Surya / Vishnu", badge: "major",
+    desc: "New Year celebrations across South India. Vishu in Kerala features the sacred Vishukkani — the first auspicious sight of the new year arranged the night before.",
+    rituals: ["Arrange Vishukkani the night before: mirror, rice, fruits, flowers, coins, Vishnu image", "Wake up before sunrise and be guided with eyes closed to see Kani first", "Distribute Vishukaineetam (gift of money) to children and elders", "Wear new clothes and prepare Kerala Sadya (feast)"],
+    significance: "Vishu marks the sun's entry into Mesha Rashi (Aries) — the Vedic New Year. The Kani tradition ensures the first sight of the new year is auspicious and full of abundance."
+  },
+  "2026-05-23": { name: "Buddha Purnima", icon: "☸️", deity: "Buddha / Vishnu", badge: "major",
+    desc: "The full moon celebrating the birth, enlightenment, and parinirvana of Siddhartha Gautama Buddha — revered in Hindu tradition as an avatar of Vishnu.",
+    rituals: ["Visit temple or bodhi tree", "Donate food and clothing to the poor", "Meditate in silence for at least 30 minutes", "Light lamps and offer flowers"],
+    significance: "In the Hindu tradition, Buddha is considered the 9th avatar of Vishnu who appeared to teach compassion and end animal sacrifice. This day is also Vaisakha Purnima — a holy day for all Hindus."
+  },
+  "2026-09-19": { name: "Ganesh Chaturthi", icon: "🐘", deity: "Lord Ganesha", badge: "major",
+    desc: "The grand birthday of Lord Ganesha — celebrated for 10 days with great joy and festivity. The most beloved festival in Maharashtra and across India.",
+    rituals: ["Install a Ganesha murti and perform prana pratishtha (consecration)", "Offer modak — Ganesha's favorite sweet", "Chant Ganapati Atharvashirsha daily", "Recite 21 names of Ganesha", "On day 10: Ganesh Visarjan (immersion) with procession"],
+    significance: "Ganesha Chaturthi occurs on the 4th day (chaturthi) of the bright fortnight of Bhadrapada. Ganesha — son of Shiva and Parvati — is the lord of beginnings, remover of obstacles, and patron of wisdom and arts."
+  },
+  "2026-10-02": { name: "Navratri Begins", icon: "⚡", deity: "Goddess Durga", badge: "major",
+    desc: "Nine nights of the divine mother — the most powerful feminine spiritual event in the Hindu calendar. Each of the 9 nights honors a different form of Devi.",
+    rituals: ["Fast for 9 days — many observe fruit-only fast", "Set up Golu (display of dolls) in South India", "Recite Durga Saptashati (700 verses to Devi) over 9 days", "Perform Garba and Dandiya Raas dances in the evenings", "Worship Shailaputri (Day 1) through Siddhidatri (Day 9)"],
+    significance: "Navratri commemorates the battle between Goddess Durga and the demon Mahishasura — a story of divine feminine power conquering evil. The 9 forms of Devi represent the full spectrum of the mother goddess."
+  },
+  "2026-10-20": { name: "Diwali", icon: "🪔", deity: "Goddess Lakshmi / Lord Rama", badge: "major",
+    desc: "The Festival of Lights — celebrating the return of Rama to Ayodhya and the triumph of light over darkness, knowledge over ignorance. The most widely celebrated Hindu festival.",
+    rituals: ["Deep clean and decorate the home with diyas and rangoli", "Perform Lakshmi Puja at dusk — she visits the cleanest, most lit homes", "Light 21 diyas around the home", "Recite Lakshmi Chalisa and Sri Suktam", "Exchange sweets and gifts with family", "Perform fireworks after puja"],
+    significance: "Diwali celebrates multiple events across Hindu traditions: Rama's return to Ayodhya after 14 years, the slaying of Narakasura by Krishna, and Lakshmi's emergence from the cosmic ocean during Samudra Manthan."
+  }
+};
+
+// Ekadashi and recurring dates
+const recurring = {
+  "monday": { name: "Somavara (Shiva's Day)", icon: "🔱", badge: "fast" },
+  "tuesday": { name: "Mangalvara (Hanuman's Day)", icon: "🙏", badge: "fast" },
+  "friday": { name: "Shukravara (Lakshmi's Day)", icon: "🌸", badge: "fast" },
+};
+
+let currentYear = 2026, currentMonth = 2; // 0-indexed, so 2 = March
+
+function renderCalendar(year, month) {
+  const monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  document.getElementById('calMonthYear').innerHTML = `${monthNames[month]} <em>${year}</em>`;
+
+  const grid = document.getElementById('calGrid');
+  // Remove old day cells but keep headers
+  const headers = grid.querySelectorAll('.cal-day-header');
+  grid.innerHTML = '';
+  headers.forEach(h => grid.appendChild(h.cloneNode(true)));
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const daysInPrev = new Date(year, month, 0).getDate();
+  const today = new Date();
+
+  // Prev month padding
+  for (let i = firstDay - 1; i >= 0; i--) {
+    const d = document.createElement('div');
+    d.className = 'cal-day other-month';
+    d.innerHTML = `<div class="day-num">${daysInPrev - i}</div>`;
+    grid.appendChild(d);
+  }
+
+  // This month
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dayOfWeek = new Date(year, month, d).getDay();
+    const fest = festivals[dateStr];
+    const isToday = d === today.getDate() && month === today.getMonth() && year === today.getFullYear();
+
+    const cell = document.createElement('div');
+    cell.className = 'cal-day clickable' + (isToday ? ' today' : '') + (fest ? ' has-festival' : '');
+    cell.dataset.date = dateStr;
+
+    let festHtml = '';
+    if (fest) festHtml = `<div class="festival-dot ${fest.badge === 'major' ? 'major' : ''}">${fest.icon} ${fest.name}</div>`;
+
+    const tithiLabels = ["Pratipada","Dwitiya","Tritiya","Chaturthi","Panchami","Shashthi","Saptami","Ashtami","Navami","Dashami","Ekadashi","Dwadashi","Trayodashi","Chaturdashi","Purnima/Amavasya"];
+    const tithi = tithiLabels[d % 15];
+
+    cell.innerHTML = `<div class="day-num">${d}</div>${festHtml}<div class="tithi-label">${tithi}</div>`;
+    cell.addEventListener('click', () => showFestival(dateStr, d, month, year));
+    grid.appendChild(cell);
+  }
+
+  // Next month padding
+  const totalCells = firstDay + daysInMonth;
+  const remaining = totalCells % 7 === 0 ? 0 : 7 - (totalCells % 7);
+  for (let i = 1; i <= remaining; i++) {
+    const d = document.createElement('div');
+    d.className = 'cal-day other-month';
+    d.innerHTML = `<div class="day-num">${i}</div>`;
+    grid.appendChild(d);
+  }
+}
+
+function showFestival(dateStr, day, month, year) {
+  document.querySelectorAll('.cal-day').forEach(c => c.classList.remove('selected'));
+  document.querySelector(`[data-date="${dateStr}"]`)?.classList.add('selected');
+
+  const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const fest = festivals[dateStr];
+  if (!fest) {
+    document.getElementById('detailName').textContent = `${monthNames[month]} ${day}`;
+    document.getElementById('detailDate').textContent = 'No major festival today';
+    document.getElementById('detailIcon').textContent = '🗓️';
+    document.getElementById('detailDesc').textContent = 'This is a regular day on the Vedic calendar. Check the tithi for daily practice guidance.';
+    document.getElementById('detailRitualsWrap').style.display = 'none';
+    return;
+  }
+  document.getElementById('detailIcon').textContent = fest.icon;
+  document.getElementById('detailName').textContent = fest.name;
+  document.getElementById('detailDate').textContent = `${monthNames[month]} ${day}, ${year} · ${fest.deity}`;
+  document.getElementById('detailDesc').textContent = fest.desc;
+  document.getElementById('detailRitualsWrap').style.display = 'block';
+  const ritualList = document.getElementById('detailRituals');
+  ritualList.innerHTML = fest.rituals.map(r => `<li>${r}</li>`).join('');
+  document.getElementById('detailSignificance').textContent = fest.significance;
+}
+
+function changeMonth(dir) {
+  currentMonth += dir;
+  if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+  if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+  renderCalendar(currentYear, currentMonth);
+}
+
+// Render upcoming festivals
+function renderUpcoming() {
+  const today = new Date();
+  const list = document.getElementById('upcomingList');
+  const upcoming = Object.entries(festivals)
+    .filter(([d]) => new Date(d) >= today)
+    .sort(([a],[b]) => new Date(a) - new Date(b))
+    .slice(0, 6);
+
+  list.innerHTML = upcoming.map(([dateStr, f]) => {
+    const d = new Date(dateStr);
+    const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    return `
+      <div class="upcoming-item clickable" onclick="showFestival('${dateStr}', ${d.getDate()}, ${d.getMonth()}, ${d.getFullYear()})">
+        <div class="upcoming-date">
+          <div class="upcoming-day">${d.getDate()}</div>
+          <div class="upcoming-month">${months[d.getMonth()]}</div>
+        </div>
+        <div class="upcoming-info">
+          <div class="upcoming-name">${f.icon} ${f.name}</div>
+          <div class="upcoming-deity">${f.deity}</div>
+        </div>
+        <span class="upcoming-badge ${f.badge === 'major' ? 'badge-major' : 'badge-fast'}">${f.badge}</span>
+      </div>`;
+  }).join('');
+}
+
+// Today's vara
+const varas = ["Ravivara (Sunday)","Somavara (Monday)","Mangalavara (Tuesday)","Budhavara (Wednesday)","Guruvara (Thursday)","Shukravara (Friday)","Shanivara (Saturday)"];
+document.getElementById('todayVara').textContent = varas[new Date().getDay()];
+
+renderCalendar(currentYear, currentMonth);
+renderUpcoming();
+</script>
+</body>
+</html>
