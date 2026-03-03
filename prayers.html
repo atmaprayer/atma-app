@@ -8,102 +8,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>Prayers & Mantras — Atma</title>
 <link rel="manifest" href="manifest.json">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="atma.css">
 <style>
-  :root {
-    --saffron: #FF6B1A;
-    --deep-saffron: #E85D04;
-    --gold: #F4C430;
-    --gold-light: #FFE08A;
-    --midnight: #0A0A1A;
-    --deep-blue: #0D0D2B;
-    --ink: #1A1A3E;
-    --cream: #FFF8EE;
-    --warm-white: #FFFDF5;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--midnight);
-    color: var(--cream);
-    font-family: 'Crimson Pro', serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* Stars */
-  .stars {
-    position: fixed; top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none; z-index: 0; overflow: hidden;
-  }
-  .star {
-    position: absolute; background: white; border-radius: 50%;
-    animation: twinkle var(--dur) ease-in-out infinite;
-  }
-  @keyframes twinkle {
-    0%,100% { opacity: var(--min-op); }
-    50% { opacity: var(--max-op); }
-  }
-
-  /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    padding: 20px 40px;
-    display: flex; justify-content: space-between; align-items: center;
-    background: linear-gradient(to bottom, rgba(10,10,26,0.95), rgba(10,10,26,0.8));
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(244,196,48,0.1);
-  }
-  .logo {
-    font-family: 'Cinzel', serif; font-size: 22px; font-weight: 700;
-    letter-spacing: 0.15em; color: var(--gold); text-decoration: none;
-  }
-  .logo span { color: var(--saffron); }
-  .nav-links { display: flex; gap: 32px; list-style: none; }
-  .nav-links a {
-    color: rgba(255,248,238,0.6); text-decoration: none;
-    font-family: 'Crimson Pro', serif; font-size: 16px;
-    transition: color 0.3s; letter-spacing: 0.04em;
-  }
-  .nav-links a:hover, .nav-links a.active { color: var(--gold); }
-  .nav-cta {
-    background: var(--saffron); color: white; padding: 9px 22px;
-    font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 0.1em;
-    text-decoration: none; transition: background 0.3s;
-    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
-  }
-  .nav-cta:hover { background: var(--deep-saffron); }
-
-  /* PAGE HEADER */
-  .page-header {
-    position: relative; z-index: 1;
-    padding: 140px 40px 60px;
-    text-align: center;
-    background: radial-gradient(ellipse at top, rgba(255,107,26,0.08) 0%, transparent 60%);
-  }
-  .page-eyebrow {
-    font-family: 'Cinzel', serif; font-size: 11px;
-    letter-spacing: 0.3em; color: var(--saffron);
-    text-transform: uppercase; margin-bottom: 16px;
-    display: block;
-  }
-  .page-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(42px, 6vw, 72px);
-    font-weight: 300; line-height: 1.1;
-    color: var(--warm-white); margin-bottom: 16px;
-  }
-  .page-title em { color: var(--gold); font-style: italic; }
-  .page-subtitle {
-    font-size: 19px; font-style: italic;
-    color: rgba(255,248,238,0.55); max-width: 500px;
-    margin: 0 auto 48px; line-height: 1.7;
-  }
-
-  /* SEARCH & FILTER */
+/* SEARCH & FILTER */
   .controls {
     position: relative; z-index: 1;
     max-width: 900px; margin: 0 auto;
@@ -369,19 +276,21 @@
 </style>
 </head>
 <body>
-
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
 <div class="stars" id="stars"></div>
 
 <!-- NAV -->
-<nav>
-  <a href="/atma-app/index.html" class="logo">ATM<span>A</span></a>
-  <ul class="nav-links">
-    <li><a href="/atma-app/prayers.html" class="active">Prayers</a></li>
-    <li><a href="/atma-app/gita.html">Gita Daily</a></li>
-    <li><a href="/atma-app/calendar.html">Calendar</a></li>
-    <li><a href="/atma-app/meditate.html">Meditate</a></li>
-    <li><a href="#" class="nav-cta">Premium</a></li>
+<nav class="atma-nav">
+  <a href="index.html" class="logo">ATM<span>A</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="prayers.html">Prayers</a></li>
+    <li><a href="gita.html">Gita Daily</a></li>
+    <li><a href="calendar.html">Calendar</a></li>
+    <li><a href="meditate.html">Meditate</a></li>
+    <li><a href="premium.html" class="nav-cta">Go Premium</a></li>
   </ul>
+  <div class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></div>
 </nav>
 
 <!-- HEADER -->
@@ -1045,11 +954,19 @@
   </div><!-- end prayer-grid -->
 </div><!-- end main -->
 
-<footer style="position:relative;z-index:1;text-align:center;padding:40px;border-top:1px solid rgba(255,248,238,0.06);">
-  <a href="/atma-app/index.html" style="font-family:'Cinzel',serif;font-size:20px;color:var(--gold);letter-spacing:0.15em;text-decoration:none;">ATMA</a>
-  <p style="margin-top:12px;font-size:14px;color:rgba(255,248,238,0.3);font-style:italic;">ॐ तत् सत् · Made with devotion</p>
+<footer class="atma-footer">
+  <a href="index.html" class="footer-logo">ATM<span>A</span></a>
+  <div class="footer-links">
+    <a href="prayers.html">Prayers</a>
+    <a href="gita.html">Gita</a>
+    <a href="calendar.html">Calendar</a>
+    <a href="meditate.html">Meditate</a>
+    <a href="premium.html">Premium</a>
+  </div>
+  <p>ॐ तत् सत् · Made with devotion for the Hindu soul</p>
 </footer>
 
+<script src="atma.js"></script>
 <script>
   // Stars
   const starsEl = document.getElementById('stars');
