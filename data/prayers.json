@@ -1,0 +1,547 @@
+[
+  {
+    "id": "vakratunda",
+    "title": "Vakratunda Mahakaya",
+    "deity": "ganesha",
+    "type": "mantra",
+    "time": ["morning"],
+    "duration": "2 min",
+    "isPremium": false,
+    "icon": "🐘",
+    "categoryLine": "Ganesha · Morning · Essential",
+    "previewSanskrit": "वक्रतुण्ड महाकाय",
+    "description": "A classic beginning prayer—recite before any new task to invoke Ganesha’s blessings and remove obstacles.",
+    "text": {
+      "label": "Shloka",
+      "sanskrit": "वक्रतुण्ड महाकाय सूर्यकोटि समप्रभ।\nनिर्विघ्नं कुरु मे देव सर्वकार्येषु सर्वदा॥",
+      "transliteration": "Vakratunda Mahakaya Suryakoti Samaprabha\nNirvighnam Kuru Me Deva Sarvakaryeshu Sarvada",
+      "translation": "O Lord with the curved trunk and mighty body, radiant like millions of suns—make my path free of obstacles in all that I do."
+    },
+    "meaning": "Invoke this before work, travel, studies, meetings, or any new beginning. Even one recitation with full attention is considered auspicious."
+  },
+  {
+    "id": "gayatri",
+    "title": "Gayatri Mantra",
+    "deity": "surya",
+    "type": "mantra",
+    "time": ["morning"],
+    "duration": "3 min",
+    "isPremium": false,
+    "icon": "☀️",
+    "categoryLine": "Surya · Mantra · Universal",
+    "previewSanskrit": "ॐ भूर्भुवः स्वः",
+    "description": "A prayer for divine illumination and clarity—traditionally recited at sunrise, noon, and sunset.",
+    "text": {
+      "label": "The Mantra",
+      "sanskrit": "ॐ भूर्भुवः स्वः\nतत्सवितुर्वरेण्यं\nभर्गो देवस्य धीमहि\nधियो यो नः प्रचोदयात्॥",
+      "transliteration": "Om Bhur Bhuvah Svaha\nTat Savitur Varenyam\nBhargo Devasya Dhimahi\nDhiyo Yo Nah Prachodayat",
+      "translation": "We meditate on the divine radiance of the Supreme—may it illuminate our intellect and guide our understanding."
+    },
+    "meaning": "If you do japa, start with 11 or 27 repetitions. Consistency matters more than a big number on day one."
+  },
+  {
+    "id": "mrityunjaya",
+    "title": "Maha Mrityunjaya Mantra",
+    "deity": "shiva",
+    "type": "mantra",
+    "time": ["morning", "evening"],
+    "duration": "3 min",
+    "isPremium": false,
+    "icon": "🔱",
+    "categoryLine": "Shiva · Mantra · Healing",
+    "previewSanskrit": "ॐ त्र्यम्बकं यजामहे",
+    "description": "A powerful prayer for protection, strength, and healing—often recited in difficult times.",
+    "text": {
+      "label": "The Mantra",
+      "sanskrit": "ॐ त्र्यम्बकं यजामहे\nसुगन्धिं पुष्टिवर्धनम्।\nउर्वारुकमिव बन्धनान्\nमृत्योर्मुक्षीय माऽमृतात्॥",
+      "transliteration": "Om Tryambakam Yajamahe\nSugandhim Pushtivardhanam\nUrvarukamiva Bandhanan\nMrityor Mukshiya Maamritat",
+      "translation": "We worship the three-eyed Lord, fragrant and life-nourishing—liberate us from bondage like a ripe fruit from its stem, not from immortality."
+    },
+    "meaning": "Recite slowly, with steady breath. In tradition, it’s paired with offering water to Shiva (even a simple glass is fine)."
+  },
+  {
+    "id": "asatoma",
+    "title": "Asatoma Sadgamaya",
+    "deity": "all",
+    "type": "stotra",
+    "time": ["evening"],
+    "duration": "2 min",
+    "isPremium": false,
+    "icon": "ॐ",
+    "categoryLine": "Upanishadic · Prayer for Truth",
+    "previewSanskrit": "असतो मा सद्गमय",
+    "description": "A timeless prayer: from ignorance to truth, darkness to light, fear to immortality.",
+    "text": {
+      "label": "Prayer",
+      "sanskrit": "असतो मा सद्गमय।\nतमसो मा ज्योतिर्गमय।\nमृत्योर्मा अमृतं गमय॥\nॐ शान्तिः शान्तिः शान्तिः॥",
+      "transliteration": "Asato Ma Sadgamaya\nTamaso Ma Jyotirgamaya\nMrityor Ma Amritam Gamaya\nOm Shantih Shantih Shantih",
+      "translation": "Lead me from untruth to truth, darkness to light, and death to immortality. Peace, peace, peace."
+    },
+    "meaning": "A perfect closing prayer after study, meditation, or at the end of the day."
+  },
+  {
+    "id": "shanti_sahana",
+    "title": "Shanti Mantra (Sahana Vavatu)",
+    "deity": "all",
+    "type": "mantra",
+    "time": ["morning", "evening"],
+    "duration": "2 min",
+    "isPremium": false,
+    "icon": "🕊️",
+    "categoryLine": "Shanti · Study · Peace",
+    "previewSanskrit": "ॐ सह नाववतु",
+    "description": "Traditionally chanted before learning or spiritual study to invoke harmony between teacher and student.",
+    "text": {
+      "label": "Shanti Mantra",
+      "sanskrit": "ॐ सह नाववतु।\nसह नौ भुनक्तु।\nसह वीर्यं करवावहै।\nतेजस्वि नावधीतमस्तु।\nमा विद्विषावहै॥\nॐ शान्तिः शान्तिः शान्तिः॥",
+      "transliteration": "Om Saha Navavatu\nSaha Nau Bhunaktu\nSaha Viryam Karavavahai\nTejasvi Navadhitamastu\nMa Vidvishavahai\nOm Shantih Shantih Shantih",
+      "translation": "May we be protected together, nourished together, and work together with strength. May our learning be radiant; may we never oppose each other. Peace, peace, peace."
+    },
+    "meaning": "Great before studying scripture, reading Gita, or even starting a focused work session."
+  },
+  {
+    "id": "om_namah_shivaya",
+    "title": "Om Namah Shivaya",
+    "deity": "shiva",
+    "type": "mantra",
+    "time": ["morning"],
+    "duration": "2 min",
+    "isPremium": false,
+    "icon": "🔱",
+    "categoryLine": "Shiva · Mantra · Grounding",
+    "previewSanskrit": "ॐ नमः शिवाय",
+    "description": "A simple mantra with deep power—centering, purifying, and calming.",
+    "text": {
+      "label": "Mantra",
+      "sanskrit": "ॐ नमः शिवाय॥",
+      "transliteration": "Om Namah Shivaya",
+      "translation": "Salutations to Shiva (the auspicious, the inner Self)."
+    },
+    "meaning": "If you’re new, do 3 minutes daily. Let the breath carry the sound gently."
+  },
+  {
+    "id": "saraswati_vandana",
+    "title": "Saraswati Vandana (Ya Kundendu)",
+    "deity": "saraswati",
+    "type": "stotra",
+    "time": ["morning"],
+    "duration": "3 min",
+    "isPremium": false,
+    "icon": "🎵",
+    "categoryLine": "Saraswati · Study · Clarity",
+    "previewSanskrit": "या कुन्देन्दु तुषारहारधवला",
+    "description": "A beloved prayer for wisdom, clarity, and learning—perfect before study or creative work.",
+    "text": {
+      "label": "Stotra",
+      "sanskrit": "या कुन्देन्दु तुषारहारधवला या शुभ्रवस्त्रावृता।\nया वीणावरदण्डमण्डितकरा या श्वेतपद्मासना॥\nया ब्रह्माच्युतशंकरप्रभृतिभिर्देवैः सदा वन्दिता।\nसा मां पातु सरस्वती भगवती निःशेषजाड्यापहा॥",
+      "transliteration": "Ya Kundendu Tusharahara Dhavala Ya Shubhra Vastra Avrita\nYa Veena Varadanda Mandita Kara Ya Shveta Padmasana\nYa Brahmachyuta Shankara Prabhritibhir Devaih Sada Vandita\nSa Mam Patu Saraswati Bhagavati Nihshesha Jadyapaha",
+      "translation": "O Goddess Saraswati—pure and radiant, worshipped by the gods—protect me and remove all dullness and ignorance."
+    },
+    "meaning": "Great for students, exams, interviews, writing, music practice, and any knowledge work."
+  },
+  {
+    "id": "lakshmi_shreem",
+    "title": "Lakshmi Mantra (Om Shreem Mahalakshmyai Namah)",
+    "deity": "lakshmi",
+    "type": "mantra",
+    "time": ["morning", "evening"],
+    "duration": "2 min",
+    "isPremium": false,
+    "icon": "🌸",
+    "categoryLine": "Lakshmi · Mantra · Abundance",
+    "previewSanskrit": "ॐ श्रीं महालक्ष्म्यै नमः",
+    "description": "A simple mantra for gratitude, steadiness, and abundance—material and spiritual.",
+    "text": {
+      "label": "Mantra",
+      "sanskrit": "ॐ श्रीं महालक्ष्म्यै नमः॥",
+      "transliteration": "Om Shreem Mahalakshmyai Namah",
+      "translation": "Salutations to Goddess Mahalakshmi."
+    },
+    "meaning": "Pair with gratitude practice: 3 things you’re thankful for after chanting."
+  },
+
+  // ======= PREMIUM (LOCKED FOR FREE USERS) =======
+
+  {
+    "id": "hanuman_chalisa",
+    "title": "Hanuman Chalisa (Guided)",
+    "deity": "hanuman",
+    "type": "chalisa",
+    "time": ["morning"],
+    "duration": "12 min",
+    "isPremium": true,
+    "icon": "🙏",
+    "categoryLine": "Hanuman · Chalisa · Strength",
+    "previewSanskrit": "श्रीगुरु चरन सरोज रज…",
+    "description": "Devotion and courage practice. Premium includes guided pacing + pronunciation tips.",
+    "text": {
+      "label": "Preview",
+      "sanskrit": "श्रीगुरु चरन सरोज रज… (preview)\nबुद्धिहीन तनु जानिके… (preview)",
+      "transliteration": "Shri Guru Charan Saroj Raj… (preview)\nBuddhiheen Tanu Jaanike… (preview)",
+      "translation": "A devotional hymn to Hanuman, recited for strength, protection, and courage. (Preview only)"
+    },
+    "premium": {
+      "chantGuide": "Premium unlocks full text, line-by-line pronunciation, and a guided recitation pace."
+    }
+  },
+  {
+    "id": "durga_saptashloki",
+    "title": "Durga Saptashloki (Guided)",
+    "deity": "devi",
+    "type": "stotra",
+    "time": ["evening"],
+    "duration": "8 min",
+    "isPremium": true,
+    "icon": "⚡",
+    "categoryLine": "Devi · Stotra · Protection",
+    "previewSanskrit": "ॐ देव्यै नमः…",
+    "description": "A focused Devi practice for protection and inner strength (Premium: guided cadence + meaning).",
+    "text": {
+      "label": "Preview",
+      "sanskrit": "ॐ देव्यै नमः… (preview)\n…",
+      "transliteration": "Om Devyai Namah… (preview)",
+      "translation": "A devotional practice dedicated to Devi’s protective energy. (Preview only)"
+    },
+    "premium": { "chantGuide": "Premium unlocks complete verses + deeper context and practice notes." }
+  },
+  {
+    "id": "narayana_suktam",
+    "title": "Narayana Suktam",
+    "deity": "vishnu",
+    "type": "stotra",
+    "time": ["morning"],
+    "duration": "7 min",
+    "isPremium": true,
+    "icon": "🪷",
+    "categoryLine": "Vishnu · Suktam · Peace",
+    "previewSanskrit": "नारायण सूक्तम्…",
+    "description": "A Vedic hymn to Narayana for steadiness and peace (Premium: word-by-word + guided chanting).",
+    "text": {
+      "label": "Preview",
+      "sanskrit": "नारायण सूक्तम्… (preview)",
+      "transliteration": "Narayana Suktam… (preview)",
+      "translation": "A hymn of devotion and remembrance. (Preview only)"
+    },
+    "premium": { "chantGuide": "Premium adds word-by-word meaning + chanting technique and pacing." }
+  },
+  {
+    "id": "shiva_tandava",
+    "title": "Shiva Tandava Stotram (Guided)",
+    "deity": "shiva",
+    "type": "stotra",
+    "time": ["evening"],
+    "duration": "10 min",
+    "isPremium": true,
+    "icon": "🔱",
+    "categoryLine": "Shiva · Stotra · Power",
+    "previewSanskrit": "जटाटवीगलज्जलप्रवाह…",
+    "description": "A rhythmic stotra—Premium includes guided pronunciation + meter hints.",
+    "text": {
+      "label": "Preview",
+      "sanskrit": "जटाटवीगलज्जलप्रवाह… (preview)",
+      "transliteration": "Jatatavigalajjala… (preview)",
+      "translation": "A powerful devotional hymn describing Shiva’s cosmic dance. (Preview only)"
+    },
+    "premium": { "chantGuide": "Premium unlocks guided pronunciation + complete stotra flow." }
+  },
+  {
+    "id": "vishnu_sahasranama",
+    "title": "Vishnu Sahasranama (Selections)",
+    "deity": "vishnu",
+    "type": "stotra",
+    "time": ["morning"],
+    "duration": "15 min",
+    "isPremium": true,
+    "icon": "🪷",
+    "categoryLine": "Vishnu · Stotra · Devotion",
+    "previewSanskrit": "ॐ विश्वं विष्णुः…",
+    "description": "Premium includes guided repetition + meaning notes (starter selections).",
+    "text": {
+      "label": "Preview",
+      "sanskrit": "ॐ विश्वं विष्णुर्वषट्कारः… (preview)",
+      "transliteration": "Om Vishvam Vishnur… (preview)",
+      "translation": "A litany of names praising Vishnu’s qualities. (Preview only)"
+    },
+    "premium": { "chantGuide": "Premium unlocks structured sessions and meaning notes by theme." }
+  },
+  {
+    "id": "kanakadhara",
+    "title": "Kanakadhara Stotram (Guided)",
+    "deity": "lakshmi",
+    "type": "stotra",
+    "time": ["evening"],
+    "duration": "9 min",
+    "isPremium": true,
+    "icon": "🌸",
+    "categoryLine": "Lakshmi · Stotra · Gratitude",
+    "previewSanskrit": "अङ्गं हरेः…",
+    "description": "Premium includes guided rhythm + deeper meaning for daily gratitude practice.",
+    "text": {
+      "label": "Preview",
+      "sanskrit": "अङ्गं हरेः… (preview)",
+      "transliteration": "Angam Hareh… (preview)",
+      "translation": "A devotional hymn to Lakshmi and grace. (Preview only)"
+    },
+    "premium": { "chantGuide": "Premium unlocks full guided chanting + meaning notes." }
+  },
+  {
+    "id": "navagraha_stotra",
+    "title": "Navagraha Stotra (Guided)",
+    "deity": "all",
+    "type": "stotra",
+    "time": ["morning"],
+    "duration": "6 min",
+    "isPremium": true,
+    "icon": "🪐",
+    "categoryLine": "Navagraha · Balance · Guidance",
+    "previewSanskrit": "आदित्याय सोमाय…",
+    "description": "Premium includes pronunciation support and practical intention-setting.",
+    "text": {
+      "label": "Preview",
+      "sanskrit": "आदित्याय सोमाय… (preview)",
+      "transliteration": "Adityaya Somaya… (preview)",
+      "translation": "A prayer honoring the planetary intelligences. (Preview only)"
+    },
+    "premium": { "chantGuide": "Premium unlocks a guided flow and meaning notes per graha." }
+  },
+  {
+    "id": "ganesha_pancharatnam",
+    "title": "Ganesha Pancharatnam (Guided)",
+    "deity": "ganesha",
+    "type": "stotra",
+    "time": ["morning"],
+    "duration": "6 min",
+    "isPremium": true,
+    "icon": "🐘",
+    "categoryLine": "Ganesha · Stotra · Focus",
+    "previewSanskrit": "मुदाकरात्तमोदकं…",
+    "description": "A classic stotra for focus and beginnings. Premium includes guided chanting + meaning.",
+    "text": {
+      "label": "Preview",
+      "sanskrit": "मुदाकरात्तमोदकं… (preview)",
+      "transliteration": "Mudakaratta Modakam… (preview)",
+      "translation": "A hymn praising Ganesha’s qualities and blessings. (Preview only)"
+    },
+    "premium": { "chantGuide": "Premium unlocks full stotra + structured practice." }
+  },
+  {
+    "id": "rudram_intro",
+    "title": "Sri Rudram (Intro Practice)",
+    "deity": "shiva",
+    "type": "stotra",
+    "time": ["morning"],
+    "duration": "8 min",
+    "isPremium": true,
+    "icon": "🔱",
+    "categoryLine": "Shiva · Vedic · Purification",
+    "previewSanskrit": "नमस्ते रुद्र…",
+    "description": "Premium starter session: guided intro to Rudram style recitation.",
+    "text": {
+      "label": "Preview",
+      "sanskrit": "नमस्ते रुद्र… (preview)",
+      "transliteration": "Namaste Rudra… (preview)",
+      "translation": "A Vedic-style devotional recitation approach. (Preview only)"
+    },
+    "premium": { "chantGuide": "Premium unlocks pacing + breathing and repetition method." }
+  },
+  {
+    "id": "surya_arghya",
+    "title": "Surya Arghya (Short Practice)",
+    "deity": "surya",
+    "type": "mantra",
+    "time": ["morning"],
+    "duration": "4 min",
+    "isPremium": true,
+    "icon": "☀️",
+    "categoryLine": "Surya · Morning · Vitality",
+    "previewSanskrit": "ॐ आदित्याय नमः…",
+    "description": "Premium adds a short water-offering intention and guided flow.",
+    "text": {
+      "label": "Preview",
+      "sanskrit": "ॐ आदित्याय नमः… (preview)",
+      "transliteration": "Om Adityaya Namah… (preview)",
+      "translation": "A morning practice for vitality and gratitude. (Preview only)"
+    },
+    "premium": { "chantGuide": "Premium unlocks a complete short ritual flow + mantra set." }
+  },
+  {
+    "id": "devi_kavacham",
+    "title": "Devi Kavacham (Starter)",
+    "deity": "devi",
+    "type": "stotra",
+    "time": ["evening"],
+    "duration": "9 min",
+    "isPremium": true,
+    "icon": "⚡",
+    "categoryLine": "Devi · Protection · Shield",
+    "previewSanskrit": "कवचम्…",
+    "description": "Premium includes guidance on intention and steady recitation.",
+    "text": {
+      "label": "Preview",
+      "sanskrit": "कवचम्… (preview)",
+      "transliteration": "Kavacham… (preview)",
+      "translation": "A devotional protection practice. (Preview only)"
+    },
+    "premium": { "chantGuide": "Premium unlocks a complete starter kavacham flow + meaning." }
+  },
+  {
+    "id": "saraswati_beej",
+    "title": "Saraswati Beej Mantra (Guided Japa)",
+    "deity": "saraswati",
+    "type": "mantra",
+    "time": ["morning"],
+    "duration": "6 min",
+    "isPremium": true,
+    "icon": "🎵",
+    "categoryLine": "Saraswati · Mantra · Learning",
+    "previewSanskrit": "ॐ ऐं सरस्वत्यै नमः",
+    "description": "Premium includes japa pacing + focus cues.",
+    "text": {
+      "label": "Preview",
+      "sanskrit": "ॐ ऐं सरस्वत्यै नमः… (preview)",
+      "transliteration": "Om Aim Saraswatyai Namah… (preview)",
+      "translation": "A mantra for clarity, learning, and speech. (Preview only)"
+    },
+    "premium": { "chantGuide": "Premium unlocks guided japa intervals + concentration cues." }
+  },
+  {
+    "id": "vishnu_shanti",
+    "title": "Vishnu Shanti Path (Guided)",
+    "deity": "vishnu",
+    "type": "stotra",
+    "time": ["evening"],
+    "duration": "7 min",
+    "isPremium": true,
+    "icon": "🪷",
+    "categoryLine": "Vishnu · Peace · Calm",
+    "previewSanskrit": "शान्तिः शान्तिः…",
+    "description": "Premium includes guided recitation and calming breath cues.",
+    "text": {
+      "label": "Preview",
+      "sanskrit": "… (preview)",
+      "transliteration": "… (preview)",
+      "translation": "A structured calming recitation. (Preview only)"
+    },
+    "premium": { "chantGuide": "Premium unlocks a full guided peace sequence + meaning." }
+  },
+  {
+    "id": "shiva_karpur",
+    "title": "Karpura Gauram (Shiva Aarti Shloka)",
+    "deity": "shiva",
+    "type": "stotra",
+    "time": ["evening"],
+    "duration": "4 min",
+    "isPremium": true,
+    "icon": "🔱",
+    "categoryLine": "Shiva · Evening · Aarti",
+    "previewSanskrit": "कर्पूरगौरं करुणावतारं…",
+    "description": "Premium includes pronunciation and meaning notes for daily evening worship.",
+    "text": {
+      "label": "Preview",
+      "sanskrit": "कर्पूरगौरं करुणावतारं… (preview)",
+      "transliteration": "Karpura Gauram Karunavataram… (preview)",
+      "translation": "A beloved Shiva verse used in aarti. (Preview only)"
+    },
+    "premium": { "chantGuide": "Premium unlocks guided aarti pacing and meaning." }
+  },
+  {
+    "id": "ganesha_aarti",
+    "title": "Ganesha Aarti (Short Guided)",
+    "deity": "ganesha",
+    "type": "stotra",
+    "time": ["evening"],
+    "duration": "6 min",
+    "isPremium": true,
+    "icon": "🐘",
+    "categoryLine": "Ganesha · Evening · Aarti",
+    "previewSanskrit": "जय गणेश… (preview)",
+    "description": "Premium includes melody pacing and pronunciation hints.",
+    "text": {
+      "label": "Preview",
+      "sanskrit": "जय गणेश… (preview)",
+      "transliteration": "Jai Ganesh… (preview)",
+      "translation": "A devotional evening offering to Ganesha. (Preview only)"
+    },
+    "premium": { "chantGuide": "Premium unlocks a full guided aarti flow." }
+  },
+  {
+    "id": "lakshmi_aarti",
+    "title": "Lakshmi Aarti (Short Guided)",
+    "deity": "lakshmi",
+    "type": "stotra",
+    "time": ["evening"],
+    "duration": "6 min",
+    "isPremium": true,
+    "icon": "🌸",
+    "categoryLine": "Lakshmi · Evening · Aarti",
+    "previewSanskrit": "जय लक्ष्मी… (preview)",
+    "description": "Premium includes a gentle guided rhythm and meaning notes.",
+    "text": {
+      "label": "Preview",
+      "sanskrit": "जय लक्ष्मी… (preview)",
+      "transliteration": "Jai Lakshmi… (preview)",
+      "translation": "A devotional evening offering to Lakshmi. (Preview only)"
+    },
+    "premium": { "chantGuide": "Premium unlocks guided aarti pacing + practice cues." }
+  },
+  {
+    "id": "devi_argala",
+    "title": "Devi Argala Stotram (Guided)",
+    "deity": "devi",
+    "type": "stotra",
+    "time": ["morning"],
+    "duration": "7 min",
+    "isPremium": true,
+    "icon": "⚡",
+    "categoryLine": "Devi · Stotra · Energy",
+    "previewSanskrit": "ॐ जयन्ती… (preview)",
+    "description": "Premium includes guided pronunciation and meaning notes for steady recitation.",
+    "text": {
+      "label": "Preview",
+      "sanskrit": "ॐ जयन्ती… (preview)",
+      "transliteration": "Om Jayanti… (preview)",
+      "translation": "A Devi devotional stotra practice. (Preview only)"
+    },
+    "premium": { "chantGuide": "Premium unlocks full guided practice + deeper meaning." }
+  },
+  {
+    "id": "hanuman_bajrang",
+    "title": "Bajrang Baan (Preview + Guided Premium)",
+    "deity": "hanuman",
+    "type": "stotra",
+    "time": ["evening"],
+    "duration": "6 min",
+    "isPremium": true,
+    "icon": "🙏",
+    "categoryLine": "Hanuman · Stotra · Protection",
+    "previewSanskrit": "निश्चय प्रेम प्रतीति… (preview)",
+    "description": "Premium includes guided cadence and practical ‘when to use’ notes.",
+    "text": {
+      "label": "Preview",
+      "sanskrit": "… (preview)",
+      "transliteration": "… (preview)",
+      "translation": "A devotional protection practice associated with Hanuman. (Preview only)"
+    },
+    "premium": { "chantGuide": "Premium unlocks guided flow + meaning notes and practice guidance." }
+  },
+  {
+    "id": "vishnu_govinda",
+    "title": "Govinda Nama (Guided Japa)",
+    "deity": "vishnu",
+    "type": "mantra",
+    "time": ["morning", "evening"],
+    "duration": "5 min",
+    "isPremium": true,
+    "icon": "🪷",
+    "categoryLine": "Vishnu · Mantra · Devotion",
+    "previewSanskrit": "गोविन्द… (preview)",
+    "description": "Premium includes guided japa pacing and devotion cues.",
+    "text": {
+      "label": "Preview",
+      "sanskrit": "गोविन्द… (preview)",
+      "transliteration": "Govinda… (preview)",
+      "translation": "A simple devotional name practice. (Preview only)"
+    },
+    "premium": { "chantGuide": "Premium unlocks structured japa sessions and focus prompts." }
+  }
+]
