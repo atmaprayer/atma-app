@@ -731,6 +731,12 @@
     <li><a href="meditate.html">Meditate</a></li>
     <li><a href="premium.html" class="nav-cta">Go Premium</a></li>
   </ul>
+  
+  <div class="account">
+    <button id="loginBtn" class="btn small">Log in</button>
+    <span id="userChip" class="chip" style="display:none"></span>
+    <button id="logoutBtn" class="btn small ghost" style="display:none">Log out</button>
+  </div>
   <div class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></div>
 </nav>
 
@@ -940,5 +946,9 @@
 </footer>
 
 <script src="atma.js"></script>
+<script type="module">
+  import { initAuthUI } from "./auth.js";
+  initAuthUI();
+</script>
 </body>
 </html>

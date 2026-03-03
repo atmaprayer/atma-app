@@ -160,6 +160,12 @@
     <li><a href="meditate.html">Meditate</a></li>
     <li><a href="premium.html" class="nav-cta">Go Premium</a></li>
   </ul>
+  
+  <div class="account">
+    <button id="loginBtn" class="btn small">Log in</button>
+    <span id="userChip" class="chip" style="display:none"></span>
+    <button id="logoutBtn" class="btn small ghost" style="display:none">Log out</button>
+  </div>
   <div class="nav-hamburger" id="hamburger"><span></span><span></span><span></span></div>
 </nav>
 
@@ -278,6 +284,10 @@
 </footer>
 
 <script src="atma.js"></script>
+<script type="module">
+  import { initAuthUI } from "./auth.js";
+  initAuthUI();
+</script>
 <script>
 const faqs = [
   { q: "Is the free version actually useful?", a: "Absolutely. The free version includes daily mantras, 8 complete prayers with full Sanskrit and meaning, the Gita verse of the day, the festival calendar, and 3 guided meditation sessions. Many people find this deeply valuable on its own. Premium is for those who want to go deeper." },
